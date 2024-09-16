@@ -16,7 +16,7 @@ public class HangmanGame {
     private int current_state;
 
     public HangmanGame(InputStream inputStream, PrintStream output) {
-        final String[] categories = {"Animals", "Cities", "Devices"};
+        final String[] categories = {"Animals", "Locations", "Devices"};
         this.current_state = 0;
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -28,10 +28,11 @@ public class HangmanGame {
             }
             category = reader.readLine();
             category = category.toLowerCase();
-            if (!(category.equals("animals") || category.equals("cities") || category.equals("devices"))) {
+            if (!(category.equals("animals") || category.equals("locations") || category.equals("devices"))) {
                 SecureRandom secureRandom = new SecureRandom();
                 int category_random_index = secureRandom.nextInt(categories.length);
                 category = categories[category_random_index];
+                category = category.toLowerCase();
                 output.print("""
                     Such a category doesn't exist! It will define randomly!
                     """);
@@ -45,12 +46,13 @@ public class HangmanGame {
             difficulty = reader.readLine();
             difficulty = difficulty.toLowerCase();
             if (!(difficulty.equals("easy") || difficulty.equals("medium") || difficulty.equals("hard"))) {
-                SecureRandom secureRandom = new SecureRandom();
-                int difficulty_random_index = secureRandom.nextInt(3);
-                category = categories[difficulty_random_index];
                 output.print("""
                     Such a difficulty level doesn't exist! It will define randomly!
                     """);
+                SecureRandom secureRandom = new SecureRandom();
+                int difficulty_random_index = secureRandom.nextInt(categories.length);
+                category = categories[difficulty_random_index];
+                difficulty = difficulty.toLowerCase();
             }
             switch (difficulty) {
                 case "easy":
@@ -60,7 +62,10 @@ public class HangmanGame {
                             word = current_word_animal.getWord();
                             hint = current_word_animal.getHint();
                             break;
-                        case "cities":
+                        case "locations":
+                            LocationWord current_word_location = new WordsCollection().getRandomEasyLocationWord();
+                            word = current_word_location.getWord();
+                            hint = current_word_location.getHint();
                             break;
                         case "devices":
                             DeviceWord current_word_device = new WordsCollection().getRandomEasyDeviceWord();
@@ -76,7 +81,10 @@ public class HangmanGame {
                             word = current_word.getWord();
                             hint = current_word.getHint();
                             break;
-                        case "cities":
+                        case "locations":
+                            LocationWord current_word_location = new WordsCollection().getRandomMediumLocationWord();
+                            word = current_word_location.getWord();
+                            hint = current_word_location.getHint();
                             break;
                         case "devices":
                             DeviceWord current_word_device = new WordsCollection().getRandomMediumDeviceWord();
@@ -92,7 +100,10 @@ public class HangmanGame {
                             word = current_word.getWord();
                             hint = current_word.getHint();
                             break;
-                        case "cities":
+                        case "locations":
+                            LocationWord current_word_location = new WordsCollection().getRandomHardLocationWord();
+                            word = current_word_location.getWord();
+                            hint = current_word_location.getHint();
                             break;
                         case "devices":
                             DeviceWord current_word_device = new WordsCollection().getRandomHardDeviceWord();

@@ -11,6 +11,9 @@ public class WordsCollection {
     private final List<DeviceWord> device_words_collection_easy;
     private final List<DeviceWord> device_words_collection_medium;
     private final List<DeviceWord> device_words_collection_hard;
+    private final List<LocationWord> location_words_collection_easy;
+    private final List<LocationWord> location_words_collection_medium;
+    private final List<LocationWord> location_words_collection_hard;
 
 
     public WordsCollection() {
@@ -20,12 +23,18 @@ public class WordsCollection {
         device_words_collection_easy = new ArrayList<>();
         device_words_collection_medium = new ArrayList<>();
         device_words_collection_hard = new ArrayList<>();
+        location_words_collection_easy = new ArrayList<>();
+        location_words_collection_medium = new ArrayList<>();
+        location_words_collection_hard = new ArrayList<>();
         setAnimal_words_collection_easy();
         setAnimal_words_collection_medium();
         setAnimal_words_collection_hard();
         setDevice_words_collection_easy();
         setDevice_words_collection_medium();
         setDevice_words_collection_hard();
+        setLocation_words_collection_easy();
+        setLocation_words_collection_medium();
+        setLocation_words_collection_hard();
     }
 
     private void setAnimal_words_collection_easy() {
@@ -66,6 +75,18 @@ public class WordsCollection {
         DeviceWord projector = new DeviceWord("Projector", "Displays information on the wall");
         device_words_collection_hard.add(projector);
     }
+    private void setLocation_words_collection_easy() {
+        LocationWord everest = new LocationWord("Everest", "The highest mountain in the world");
+        location_words_collection_easy.add(everest);
+    }
+    private void setLocation_words_collection_medium() {
+        LocationWord france = new LocationWord("France", "The love's country");
+        location_words_collection_medium.add(france);
+    }
+    private void setLocation_words_collection_hard() {
+        LocationWord madagascar = new LocationWord("Madagascar", "The place called by the cartoon");
+        location_words_collection_hard.add(madagascar);
+    }
 
     public AnimalWord getRandomEasyAnimalWord() {
         SecureRandom secureRandom = new SecureRandom();
@@ -90,5 +111,17 @@ public class WordsCollection {
     public DeviceWord getRandomHardDeviceWord() {
         SecureRandom secureRandom = new SecureRandom();
         return device_words_collection_hard.get(secureRandom.nextInt(device_words_collection_hard.size()));
+    }
+    public LocationWord getRandomEasyLocationWord() {
+        SecureRandom secureRandom = new SecureRandom();
+        return location_words_collection_easy.get(secureRandom.nextInt(location_words_collection_easy.size()));
+    }
+    public LocationWord getRandomMediumLocationWord() {
+        SecureRandom secureRandom = new SecureRandom();
+        return location_words_collection_medium.get(secureRandom.nextInt(location_words_collection_medium.size()));
+    }
+    public LocationWord getRandomHardLocationWord() {
+        SecureRandom secureRandom = new SecureRandom();
+        return location_words_collection_hard.get(secureRandom.nextInt(location_words_collection_hard.size()));
     }
 }
