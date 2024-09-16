@@ -3,44 +3,111 @@ package backend.academy.hangman;
 import java.io.PrintStream;
 
 public class HangmanStates {
-    private final int attempts = 5;
     private int current_state;
+
     public HangmanStates() {
         this.current_state = 0;
     }
-    public void getCurrentState(PrintStream output) {
+
+    public void displayCurrentState(PrintStream output) {
         switch (current_state) {
-            case 0: output.print("""
-                -------------------------
-                |||                    |
-                |||                    |
-                |||                    |
-                \\|/                   |
-                 |                     |
-                """);
-            break;
-            case 1: output.print("""
-                case 1
-                """);
-            break;
-            case 2: output.print("""
-                case 2
-                """);
-            break;
-            case 3: output.print("""
-                case 3
-                """);
-            break;
-            case 4: output.print("""
-                case 4
-                """);
-            break;
+            case 0:
+                output.print("""
+                    |||======================
+                    |||                    |
+                    |||                    |
+                    |||
+                    \\|/
+                     |
+                     |
+                     |
+                    """);
+                break;
+            case 1:
+                output.print("""
+                    |||======================
+                    |||                    |
+                    |||                    |
+                    |||                    |
+                    \\|/                    O
+                     |
+                     |
+                     |
+                    """);
+                break;
+            case 2:
+                output.print("""
+                    |||======================
+                    |||                    |
+                    |||                    |
+                    |||                    |
+                    \\|/                    O
+                     |                    /|\\
+                     |
+                     |
+                    """);
+                break;
+            case 3:
+                output.print("""
+                    |||======================
+                    |||                    |
+                    |||                    |
+                    |||                    |
+                    \\|/                    O
+                     |                    /|\\
+                     |                     |
+                     |
+                    """);
+                break;
+            case 4:
+                output.print("""
+                    |||======================
+                    |||                    |
+                    |||                    |
+                    |||                    |
+                    \\|/                    O
+                     |                    /|\\
+                     |                     |
+                     |                    /
+                    """);
+                break;
+            case 5:
+                output.print("""
+                    |||======================
+                    |||                    |
+                    |||                    |
+                    |||                    |
+                    \\|/                    O
+                     |                    /|\\
+                     |                     |
+                     |                    / \\
+                    """);
+                break;
+            case 6:
+                output.print("""
+                    |||======================
+                    |||                    |
+                    |||                    |
+                    |||                    |
+                    \\|/                    X
+                     |                    /|\\
+                     |                     |
+                     |                    / \\
+                    """);
+                break;
         }
     }
-    public void invalidAttempt(){
-        current_state++;
+
+    public int getCurrentState() {
+        return current_state;
     }
+
+    public void setCurrentState(int current_state) {
+        this.current_state = current_state;
+    }
+
     public int getAttempts() {
-        return attempts;
+        return 5;
     }
+
 }
