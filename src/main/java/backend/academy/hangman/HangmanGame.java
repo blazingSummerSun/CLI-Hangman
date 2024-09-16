@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.security.SecureRandom;
+import java.util.HashSet;
 
 public class HangmanGame {
     @Getter private String category;
@@ -25,8 +26,8 @@ public class HangmanGame {
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 Welcome to the hangman game! Write the name of the category you want to select:
                 """);
-            for(int i = 0; i < categories.length; i++) {
-                output.println(i+1 + ". " + categories[i]);
+            for (int i = 0; i < categories.length; i++) {
+                output.println(i + 1 + ". " + categories[i]);
             }
             category = reader.readLine();
             category = category.toLowerCase();
@@ -42,8 +43,8 @@ public class HangmanGame {
             output.print("""
                 Select the desired difficulty level:
                 """);
-            for(int i = 0; i < difficulty_levels.length; i++) {
-                output.println(i+1 + ". " + difficulty_levels[i]);
+            for (int i = 0; i < difficulty_levels.length; i++) {
+                output.println(i + 1 + ". " + difficulty_levels[i]);
             }
             difficulty = reader.readLine();
             difficulty = difficulty.toLowerCase();
@@ -128,19 +129,87 @@ public class HangmanGame {
     public void launchGame(InputStream inputStream, PrintStream output) {
         HangmanStates states = new HangmanStates();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        HashSet<Character> word_by_chars = new HashSet<>();
+        for(int i = 0; i < word.length(); i++) {
+            word_by_chars.add(word.charAt(i));
+        }
+        HashSet<Character> input_letters = new HashSet<>();
         output.println("""
             Well-well-well! The game has started right now! Good luck!
             Your category is""" + " " + category);
-        output.print("""
+        output.println("""
             Your difficulty level is""" + " " + difficulty);
-//        while (current_state != states.getAttempts()) {
-//            try {
-//                char current_char = reader.readLine().charAt(0);
-//
-//            } catch (Exception e) {
-//                output.println(e.getMessage());
-//            }
-//        }
+        output.print("""
+                Start typing character by character or write "hint" to get the hint!
+                """);
+        while (current_state <= states.getAttempts()) {
+            try {
+                String current_input = reader.readLine();
+                current_input = current_input.toLowerCase();
+                if(current_input.length() == 0) {
+                    output.print("""
+                        Your input is empty!
+                        """);
+                    continue;
+                }
+                else if (!(current_input.equals("hint") || current_input.length() == 1)) {
+                    output.print("""
+                        Your input is incorrect! You need to write either "hint" or any character!
+                        """);
+                    continue;
+                } else if (current_input.equals("hint")) {
+                    output.println("""
+                        You used the hint! The hint is:
+                        """ + hint);
+                    continue;
+                } else if(!Character.isAlphabetic(current_input.charAt(0))) {
+                    output.print("""
+                        Wrong input! You need to write either "hint" or any character!
+                        """);
+                    continue;
+                }
+                else {
+                    if(input_letters.contains(current_input.charAt(0))) {
+                        output.print("""
+                            You've already entered this letter! Try another one!
+                            """);
+                    } else if(word_by_chars.contains(current_input.charAt(0))) {
+                        output.print("""
+                            Exactly! You guess the letter! Keep going!
+                            """);
+                        input_letters.add(current_input.charAt(0));
+                    } else if(!word_by_chars.contains(current_input.charAt(0)) && current_state < states.getAttempts()) {
+                        output.print("""
+                            Unluck! You didn't guess the letter! Try another one!
+                            """);
+                        input_letters.add(current_input.charAt(0));
+                        current_state++;
+                    } else {
+                        output.print("""
+                            You wasted all your attempts! You have lost!
+                            """);
+                        input_letters.add(current_input.charAt(0));
+                        current_state++;
+                    }
+                }
+                boolean stop = true;
+                for (Character current_char : word_by_chars) {
+                    if(!input_letters.contains(current_char)) {
+                        stop = false;
+                        break;
+                    }
+                }
+                if(stop) {
+                    output.print("""
+                        Congratulations! You guessed the word!
+                        """);
+                    break;
+                }
+
+            } catch (Exception e) {
+                output.println(e.getMessage());
+            }
+        }
     }
 
 }
