@@ -1,17 +1,26 @@
 package backend.academy.hangman;
 
 import java.io.PrintStream;
+import lombok.Getter;
 
-public class HangmanStates {
-    private int current_state;
+@Getter public class HangmanStates {
+    private static final int STATE_ZERO = 0;
+    private static final int STATE_ONE = 1;
+    private static final int STATE_TWO = 2;
+    private static final int STATE_THREE = 3;
+    private static final int STATE_FOUR = 4;
+    private static final int STATE_FIVE = 5;
+    private static final int STATE_SIX = 6;
+    private int currentState;
+    private final int attempts = 5;
 
     public HangmanStates() {
-        this.current_state = 0;
+        this.currentState = 0;
     }
 
     public void displayCurrentState(PrintStream output) {
-        switch (current_state) {
-            case 0:
+        switch (currentState) {
+            case STATE_ZERO:
                 output.print("""
                     |||======================
                     |||                    |
@@ -23,7 +32,7 @@ public class HangmanStates {
                      |
                     """);
                 break;
-            case 1:
+            case STATE_ONE:
                 output.print("""
                     |||======================
                     |||                    |
@@ -35,7 +44,7 @@ public class HangmanStates {
                      |
                     """);
                 break;
-            case 2:
+            case STATE_TWO:
                 output.print("""
                     |||======================
                     |||                    |
@@ -47,7 +56,7 @@ public class HangmanStates {
                      |
                     """);
                 break;
-            case 3:
+            case STATE_THREE:
                 output.print("""
                     |||======================
                     |||                    |
@@ -59,7 +68,7 @@ public class HangmanStates {
                      |
                     """);
                 break;
-            case 4:
+            case STATE_FOUR:
                 output.print("""
                     |||======================
                     |||                    |
@@ -71,7 +80,7 @@ public class HangmanStates {
                      |                    /
                     """);
                 break;
-            case 5:
+            case STATE_FIVE:
                 output.print("""
                     |||======================
                     |||                    |
@@ -83,7 +92,7 @@ public class HangmanStates {
                      |                    / \\
                     """);
                 break;
-            case 6:
+            case STATE_SIX:
                 output.print("""
                     |||======================
                     |||                    |
@@ -95,19 +104,23 @@ public class HangmanStates {
                      |                    / \\
                     """);
                 break;
+            default:
+                output.print("""
+                    Something went wrong! Try to reboot the program!
+                    |||======================
+                    |||                    |
+                    |||                    |
+                    |||                    |
+                    \\|/                    X
+                     |                    /|\\
+                     |                     |
+                     |                    / \\
+                    """);
         }
     }
 
-    public int getCurrentState() {
-        return current_state;
-    }
-
-    public void setCurrentState(int current_state) {
-        this.current_state = current_state;
-    }
-
-    public int getAttempts() {
-        return 5;
+    public void incrementCurrentState() {
+        currentState++;
     }
 
 }
