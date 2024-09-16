@@ -17,10 +17,12 @@ public class HangmanGame {
 
     public HangmanGame(InputStream inputStream, PrintStream output) {
         final String[] categories = {"Animals", "Locations", "Devices"};
+        final String[] difficulty_levels = {"Easy", "Medium", "Hard"};
         this.current_state = 0;
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             output.print("""
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 Welcome to the hangman game! Write the name of the category you want to select:
                 """);
             for(int i = 0; i < categories.length; i++) {
@@ -39,10 +41,10 @@ public class HangmanGame {
             }
             output.print("""
                 Select the desired difficulty level:
-                1. Easy
-                2. Medium
-                3. Hard
                 """);
+            for(int i = 0; i < difficulty_levels.length; i++) {
+                output.println(i+1 + ". " + difficulty_levels[i]);
+            }
             difficulty = reader.readLine();
             difficulty = difficulty.toLowerCase();
             if (!(difficulty.equals("easy") || difficulty.equals("medium") || difficulty.equals("hard"))) {
@@ -50,8 +52,8 @@ public class HangmanGame {
                     Such a difficulty level doesn't exist! It will define randomly!
                     """);
                 SecureRandom secureRandom = new SecureRandom();
-                int difficulty_random_index = secureRandom.nextInt(categories.length);
-                category = categories[difficulty_random_index];
+                int difficulty_random_index = secureRandom.nextInt(difficulty_levels.length);
+                difficulty = difficulty_levels[difficulty_random_index];
                 difficulty = difficulty.toLowerCase();
             }
             switch (difficulty) {
@@ -113,8 +115,11 @@ public class HangmanGame {
                     }
                     break;
             }
-            System.out.println(word);
-            System.out.println(hint);
+            output.print("""
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                """);
+            category = category.substring(0, 1).toUpperCase() + category.substring(1);
+            difficulty = difficulty.substring(0, 1).toUpperCase() + difficulty.substring(1);
         } catch (IOException e) {
             output.println(e.getMessage());
         }
@@ -123,14 +128,19 @@ public class HangmanGame {
     public void launchGame(InputStream inputStream, PrintStream output) {
         HangmanStates states = new HangmanStates();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        while (current_state != states.getAttempts()) {
-            try {
-                char current_char = reader.readLine().charAt(0);
-
-            } catch (Exception e) {
-                output.println(e.getMessage());
-            }
-        }
+        output.println("""
+            Well-well-well! The game has started right now! Good luck!
+            Your category is""" + " " + category);
+        output.print("""
+            Your difficulty level is""" + " " + difficulty);
+//        while (current_state != states.getAttempts()) {
+//            try {
+//                char current_char = reader.readLine().charAt(0);
+//
+//            } catch (Exception e) {
+//                output.println(e.getMessage());
+//            }
+//        }
     }
 
 }
