@@ -16,19 +16,19 @@ public class HangmanGame {
     private int current_state;
 
     public HangmanGame(InputStream inputStream, PrintStream output) {
-        final String[] categories = {"Animals", "Cities", "Cars"};
+        final String[] categories = {"Animals", "Cities", "Devices"};
         this.current_state = 0;
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             output.print("""
                 Welcome to the hangman game! Write the name of the category you want to select:
-                1. Animals
-                2. Cities
-                3. Cars.
                 """);
+            for(int i = 0; i < categories.length; i++) {
+                output.println(i+1 + ". " + categories[i]);
+            }
             category = reader.readLine();
             category = category.toLowerCase();
-            if (!(category.equals("animals") || category.equals("cities") || category.equals("cars"))) {
+            if (!(category.equals("animals") || category.equals("cities") || category.equals("devices"))) {
                 SecureRandom secureRandom = new SecureRandom();
                 int category_random_index = secureRandom.nextInt(categories.length);
                 category = categories[category_random_index];
@@ -56,43 +56,54 @@ public class HangmanGame {
                 case "easy":
                     switch (category) {
                         case "animals":
-                            AnimalWord current_word = new AnimalWordsCollection().getRandomEasyAnimalWord();
-                            word = current_word.getWord();
-                            hint = current_word.getHint();
+                            AnimalWord current_word_animal = new WordsCollection().getRandomEasyAnimalWord();
+                            word = current_word_animal.getWord();
+                            hint = current_word_animal.getHint();
                             break;
                         case "cities":
                             break;
-                        case "cars":
+                        case "devices":
+                            DeviceWord current_word_device = new WordsCollection().getRandomEasyDeviceWord();
+                            word = current_word_device.getWord();
+                            hint = current_word_device.getHint();
                             break;
                     }
                     break;
                 case "medium":
                     switch (category) {
                         case "animals":
-                            AnimalWord current_word = new AnimalWordsCollection().getRandomMediumAnimalWord();
+                            AnimalWord current_word = new WordsCollection().getRandomMediumAnimalWord();
                             word = current_word.getWord();
                             hint = current_word.getHint();
                             break;
                         case "cities":
                             break;
-                        case "cars":
+                        case "devices":
+                            DeviceWord current_word_device = new WordsCollection().getRandomMediumDeviceWord();
+                            word = current_word_device.getWord();
+                            hint = current_word_device.getHint();
                             break;
                     }
                     break;
                 case "hard":
                     switch (category) {
                         case "animals":
-                            AnimalWord current_word = new AnimalWordsCollection().getRandomHardAnimalWord();
+                            AnimalWord current_word = new WordsCollection().getRandomHardAnimalWord();
                             word = current_word.getWord();
                             hint = current_word.getHint();
                             break;
                         case "cities":
                             break;
-                        case "cars":
+                        case "devices":
+                            DeviceWord current_word_device = new WordsCollection().getRandomHardDeviceWord();
+                            word = current_word_device.getWord();
+                            hint = current_word_device.getHint();
                             break;
                     }
                     break;
             }
+            System.out.println(word);
+            System.out.println(hint);
         } catch (IOException e) {
             output.println(e.getMessage());
         }
