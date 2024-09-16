@@ -35,8 +35,9 @@ public class HangmanGame {
             }
             category = reader.readLine();
             category = category.toLowerCase();
-            if (!(category.equals("animals") || category.equals("locations") || category.equals("devices") || category.equals("1")
-            || category.equals("2") || category.equals("3"))) {
+            if (!(category.equals("animals") || category.equals("locations") || category.equals("devices") ||
+                category.equals("1")
+                || category.equals("2") || category.equals("3"))) {
                 SecureRandom secureRandom = new SecureRandom();
                 int category_random_index = secureRandom.nextInt(categories.length);
                 category = categories[category_random_index];
@@ -54,7 +55,7 @@ public class HangmanGame {
             difficulty = reader.readLine();
             difficulty = difficulty.toLowerCase();
             if (!(difficulty.equals("easy") || difficulty.equals("medium") || difficulty.equals("hard")
-            || difficulty.equals("1") || difficulty.equals("2") || difficulty.equals("3"))) {
+                || difficulty.equals("1") || difficulty.equals("2") || difficulty.equals("3"))) {
                 output.print("""
                     Such a difficulty level doesn't exist! It will define randomly!
                     """);
