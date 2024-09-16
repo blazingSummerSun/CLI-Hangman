@@ -1,6 +1,5 @@
 package backend.academy.hangman;
 
-import lombok.Getter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.security.SecureRandom;
 import java.util.HashSet;
+import lombok.Getter;
 
 public class HangmanGame {
     @Getter private String category;
@@ -15,15 +15,15 @@ public class HangmanGame {
     private String hint;
     @Getter private String difficulty;
     private static HangmanStates states;
-    private static HashSet<Character> word_by_chars;
-    private static HashSet<Character> input_letters;
+    private static HashSet<Character> wordByChars;
+    private static HashSet<Character> inputLetters;
 
     public HangmanGame(InputStream inputStream, PrintStream output) {
         final String[] categories = {"Animals", "Locations", "Devices"};
         final String[] difficulty_levels = {"Easy", "Medium", "Hard"};
         states = new HangmanStates();
-        word_by_chars = new HashSet<>();
-        input_letters = new HashSet<>();
+        wordByChars = new HashSet<>();
+        inputLetters = new HashSet<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             output.print("""
@@ -35,12 +35,11 @@ public class HangmanGame {
             }
             category = reader.readLine();
             category = category.toLowerCase();
-            if (!(category.equals("animals") || category.equals("locations") || category.equals("devices") ||
-                category.equals("1")
-                || category.equals("2") || category.equals("3"))) {
+            if (!(category.equals("animals") || category.equals("locations") || category.equals("devices")
+                || category.equals("1") || category.equals("2") || category.equals("3"))) {
                 SecureRandom secureRandom = new SecureRandom();
-                int category_random_index = secureRandom.nextInt(categories.length);
-                category = categories[category_random_index];
+                int categoryRandomIndex = secureRandom.nextInt(categories.length);
+                category = categories[categoryRandomIndex];
                 category = category.toLowerCase();
                 output.print("""
                     Such a category doesn't exist! It will define randomly!
@@ -60,27 +59,32 @@ public class HangmanGame {
                     Such a difficulty level doesn't exist! It will define randomly!
                     """);
                 SecureRandom secureRandom = new SecureRandom();
-                int difficulty_random_index = secureRandom.nextInt(difficulty_levels.length);
-                difficulty = difficulty_levels[difficulty_random_index];
+                int difficultyRandomIndex = secureRandom.nextInt(difficulty_levels.length);
+                difficulty = difficulty_levels[difficultyRandomIndex];
                 difficulty = difficulty.toLowerCase();
             }
             switch (difficulty) {
                 case "easy", "1":
                     switch (category) {
                         case "animals", "1":
-                            AnimalWord current_word_animal = new WordsCollection().getRandomEasyAnimalWord();
-                            word = current_word_animal.getWord();
-                            hint = current_word_animal.getHint();
+                            AnimalWord currentWordAnimal = new WordsCollection().getRandomEasyAnimalWord();
+                            word = currentWordAnimal.getWord();
+                            hint = currentWordAnimal.getHint();
                             break;
                         case "locations", "2":
-                            LocationWord current_word_location = new WordsCollection().getRandomEasyLocationWord();
-                            word = current_word_location.getWord();
-                            hint = current_word_location.getHint();
+                            LocationWord currentWordLocation = new WordsCollection().getRandomEasyLocationWord();
+                            word = currentWordLocation.getWord();
+                            hint = currentWordLocation.getHint();
                             break;
                         case "devices", "3":
-                            DeviceWord current_word_device = new WordsCollection().getRandomEasyDeviceWord();
-                            word = current_word_device.getWord();
-                            hint = current_word_device.getHint();
+                            DeviceWord currentWordDevice = new WordsCollection().getRandomEasyDeviceWord();
+                            word = currentWordDevice.getWord();
+                            hint = currentWordDevice.getHint();
+                            break;
+                        default:
+                            output.print("""
+                                Something went wrong! Reboot the program.
+                                """);
                             break;
                     }
                     break;
@@ -92,14 +96,19 @@ public class HangmanGame {
                             hint = current_word.getHint();
                             break;
                         case "locations", "2":
-                            LocationWord current_word_location = new WordsCollection().getRandomMediumLocationWord();
-                            word = current_word_location.getWord();
-                            hint = current_word_location.getHint();
+                            LocationWord currentWordLocation = new WordsCollection().getRandomMediumLocationWord();
+                            word = currentWordLocation.getWord();
+                            hint = currentWordLocation.getHint();
                             break;
                         case "devices", "3":
-                            DeviceWord current_word_device = new WordsCollection().getRandomMediumDeviceWord();
-                            word = current_word_device.getWord();
-                            hint = current_word_device.getHint();
+                            DeviceWord currentWordDevice = new WordsCollection().getRandomMediumDeviceWord();
+                            word = currentWordDevice.getWord();
+                            hint = currentWordDevice.getHint();
+                            break;
+                        default:
+                            output.print("""
+                                Something went wrong! Reboot the program.
+                                """);
                             break;
                     }
                     break;
@@ -111,16 +120,26 @@ public class HangmanGame {
                             hint = current_word.getHint();
                             break;
                         case "locations", "2":
-                            LocationWord current_word_location = new WordsCollection().getRandomHardLocationWord();
-                            word = current_word_location.getWord();
-                            hint = current_word_location.getHint();
+                            LocationWord currentWordLocation = new WordsCollection().getRandomHardLocationWord();
+                            word = currentWordLocation.getWord();
+                            hint = currentWordLocation.getHint();
                             break;
                         case "devices", "3":
-                            DeviceWord current_word_device = new WordsCollection().getRandomHardDeviceWord();
-                            word = current_word_device.getWord();
-                            hint = current_word_device.getHint();
+                            DeviceWord currentWordDevice = new WordsCollection().getRandomHardDeviceWord();
+                            word = currentWordDevice.getWord();
+                            hint = currentWordDevice.getHint();
+                            break;
+                        default:
+                            output.print("""
+                                Something went wrong! Reboot the program.
+                                """);
                             break;
                     }
+                    break;
+                default:
+                    output.print("""
+                        Something went wrong! Reboot the program.
+                        """);
                     break;
             }
             output.print("""
@@ -136,7 +155,7 @@ public class HangmanGame {
     public void launchGame(InputStream inputStream, PrintStream output) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         for (int i = 0; i < word.length(); i++) {
-            word_by_chars.add(word.charAt(i));
+            wordByChars.add(word.charAt(i));
         }
         output.println("""
             Well-well-well! The game has started right now! Good luck!
@@ -172,33 +191,33 @@ public class HangmanGame {
                         """);
                     continue;
                 } else {
-                    if (input_letters.contains(current_input.charAt(0))) {
+                    if (inputLetters.contains(current_input.charAt(0))) {
                         output.print("""
                             You've already entered this letter! Try another one!
                             """);
-                    } else if (word_by_chars.contains(current_input.charAt(0))) {
+                    } else if (wordByChars.contains(current_input.charAt(0))) {
                         output.print("""
                             Exactly! You guess the letter! Keep going!
                             """);
-                        input_letters.add(current_input.charAt(0));
-                    } else if (!word_by_chars.contains(current_input.charAt(0)) &&
-                        states.getCurrentState() < states.getAttempts()) {
+                        inputLetters.add(current_input.charAt(0));
+                    } else if (!wordByChars.contains(current_input.charAt(0))
+                        && states.getCurrentState() < states.getAttempts()) {
                         output.print("""
                             Failure! You didn't guess the letter! Try another one!
                             """);
-                        input_letters.add(current_input.charAt(0));
+                        inputLetters.add(current_input.charAt(0));
                         states.setCurrentState(states.getCurrentState() + 1);
                     } else {
                         output.print("""
                             You wasted all your attempts! You have lost!
                             """);
-                        input_letters.add(current_input.charAt(0));
+                        inputLetters.add(current_input.charAt(0));
                         states.setCurrentState(states.getCurrentState() + 1);
                     }
                 }
                 boolean stop = true;
-                for (Character current_char : word_by_chars) {
-                    if (!input_letters.contains(current_char)) {
+                for (Character current_char : wordByChars) {
+                    if (!inputLetters.contains(current_char)) {
                         stop = false;
                         break;
                     }
@@ -219,7 +238,7 @@ public class HangmanGame {
     private static void drawState(PrintStream output) {
         states.displayCurrentState(output);
         for (int i = 0; i < word.length(); i++) {
-            if (input_letters.contains(word.charAt(i))) {
+            if (inputLetters.contains(word.charAt(i))) {
                 output.print(word.charAt(i) + " ");
             } else {
                 output.print("_ ");
