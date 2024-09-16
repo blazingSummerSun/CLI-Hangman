@@ -2,15 +2,15 @@ package backend.academy.hangman;
 
 public abstract class Word {
     protected String word;
-    protected String clue;
-    public Word(String word, String clue) {
+    protected String hint;
+    public Word(String word, String hint) {
         this.word = word;
-        this.clue = clue;
+        this.hint = hint;
     }
     public String getWord() {
         return word;
     }
-    public String getClue() {
-        return clue;
+    public String getHint() {
+        return hint;
     }
 }
