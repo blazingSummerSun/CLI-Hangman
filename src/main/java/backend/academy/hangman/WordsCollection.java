@@ -38,10 +38,10 @@ public class WordsCollection {
     }
 
     private void setAnimal_words_collection_easy() {
-        AnimalWord cow = new AnimalWord("Cow", "Farm animal");
-        AnimalWord hyena = new AnimalWord("Hyena", "Carnivorous animal");
-        AnimalWord giraffe = new AnimalWord("Giraffe", "Animal with the longest neck");
-        AnimalWord whale = new AnimalWord("Whale", "The animal lives in the ocean");
+        AnimalWord cow = new AnimalWord("cow", "Farm animal");
+        AnimalWord hyena = new AnimalWord("hyena", "Carnivorous animal");
+        AnimalWord giraffe = new AnimalWord("giraffe", "Animal with the longest neck");
+        AnimalWord whale = new AnimalWord("whale", "The animal lives in the ocean");
         animal_words_collection_easy.add(cow);
         animal_words_collection_easy.add(hyena);
         animal_words_collection_easy.add(giraffe);
@@ -49,42 +49,42 @@ public class WordsCollection {
     }
 
     private void setAnimal_words_collection_medium() {
-        AnimalWord capybara = new AnimalWord("Capybara", "The friendliest animal");
-        AnimalWord raccoon = new AnimalWord("Raccoon", "Distinctive dark markings on their faces");
-        AnimalWord peacock = new AnimalWord("Peacock", "Animal with sea green `eyes` on its tail");
+        AnimalWord capybara = new AnimalWord("capybara", "The friendliest animal");
+        AnimalWord raccoon = new AnimalWord("raccoon", "Distinctive dark markings on their faces");
+        AnimalWord peacock = new AnimalWord("peacock", "Animal with sea green `eyes` on its tail");
         animal_words_collection_medium.add(capybara);
         animal_words_collection_medium.add(raccoon);
         animal_words_collection_medium.add(peacock);
     }
 
     private void setAnimal_words_collection_hard() {
-        AnimalWord chinchilla = new AnimalWord("Chinchilla", "Cute animal");
+        AnimalWord chinchilla = new AnimalWord("chinchilla", "Cute animal");
         animal_words_collection_hard.add(chinchilla);
     }
     private void setDevice_words_collection_easy() {
-        DeviceWord mouse = new DeviceWord("Mouse", "Moves a cursor within the screen");
-        DeviceWord screen = new DeviceWord("Screen", "Displays some information from a user");
+        DeviceWord mouse = new DeviceWord("mouse", "Moves a cursor within the screen");
+        DeviceWord screen = new DeviceWord("screen", "Displays some information from a user");
         device_words_collection_easy.add(mouse);
         device_words_collection_easy.add(screen);
     }
     private void setDevice_words_collection_medium() {
-        DeviceWord headphones = new DeviceWord("Headphones", "Sound device");
+        DeviceWord headphones = new DeviceWord("headphones", "Sound device");
         device_words_collection_medium.add(headphones);
     }
     private void setDevice_words_collection_hard() {
-        DeviceWord projector = new DeviceWord("Projector", "Displays information on the wall");
+        DeviceWord projector = new DeviceWord("projector", "Displays information on the wall");
         device_words_collection_hard.add(projector);
     }
     private void setLocation_words_collection_easy() {
-        LocationWord everest = new LocationWord("Everest", "The highest mountain in the world");
+        LocationWord everest = new LocationWord("everest", "The highest mountain in the world");
         location_words_collection_easy.add(everest);
     }
     private void setLocation_words_collection_medium() {
-        LocationWord france = new LocationWord("France", "The love's country");
+        LocationWord france = new LocationWord("france", "The love's country");
         location_words_collection_medium.add(france);
     }
     private void setLocation_words_collection_hard() {
-        LocationWord madagascar = new LocationWord("Madagascar", "The place called by the cartoon");
+        LocationWord madagascar = new LocationWord("madagascar", "The place called by the cartoon");
         location_words_collection_hard.add(madagascar);
     }
 
