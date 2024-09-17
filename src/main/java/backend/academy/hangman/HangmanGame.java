@@ -17,6 +17,12 @@ public class HangmanGame {
     private static final String ERROR_INPUT = "Something went wrong! Try to reboot the program.";
     private static final int CATEGORIES_NUMBER = 3;
     private static final int DIFFICULTY_LEVEL_NUMBER = 3;
+    private static final String ANIMAL_CATEGORY_INDEX = "1";
+    private static final String LOCATIONS_CATEGORY_INDEX = "2";
+    private static final String DEVICES_CATEGORY_INDEX = "3";
+    private static final String EASY_DIFFICULTY_INDEX = "1";
+    private static final String MEDIUM_DIFFICULTY_INDEX = "2";
+    private static final String HARD_DIFFICULTY_INDEX = "3";
     @Getter private String category;
     private static String word;
     private String hint;
@@ -24,8 +30,8 @@ public class HangmanGame {
     private static HangmanStates states;
     private static HashSet<Character> wordByChars;
     private static HashSet<Character> inputLetters;
-    private final String[] categories = {"Animals", "Locations", "Devices", "1", "1.", "2", "2.", "3", "3."};
-    private final String[] difficultyLevels = {"Easy", "Medium", "Hard", "1", "1.", "2", "2.", "3", "3."};
+    private final String[] categories = {"Animals", "Locations", "Devices", "1", "2", "3"};
+    private final String[] difficultyLevels = {"Easy", "Medium", "Hard", "1", "2", "3"};
 
     public HangmanGame(InputStream inputStream, PrintStream output) {
         states = new HangmanStates();
@@ -46,12 +52,19 @@ public class HangmanGame {
                 output.println(i + 1 + ". " + categories[i]);
                 categories[i] = categories[i].toLowerCase();
             }
+            boolean categoryExists = false;
             category = reader.readLine();
-            category = category.toLowerCase();
-            boolean categoryExists = isCategoryExists(category);
+            if (category.isEmpty()) {
+                output.print("""
+                    Your input is empty! The category will define randomly!
+                    """);
+            } else {
+                category = category.toLowerCase();
+                categoryExists = isCategoryExists(category);
+            }
             if (!categoryExists) {
                 SecureRandom secureRandom = new SecureRandom();
-                int categoryRandomIndex = secureRandom.nextInt(categories.length);
+                int categoryRandomIndex = secureRandom.nextInt(CATEGORIES_NUMBER);
                 category = categories[categoryRandomIndex];
                 category = category.toLowerCase();
                 output.print("""
@@ -66,14 +79,22 @@ public class HangmanGame {
                 difficultyLevels[i] = difficultyLevels[i].toLowerCase();
             }
             difficulty = reader.readLine();
+            boolean difficultyExists = false;
+            if (difficulty.isEmpty()) {
+                output.print("""
+                    Your input is empty! The difficulty will define randomly!
+                    """);
+            } else {
+                difficulty = difficulty.toLowerCase();
+                difficultyExists = isDifficultyExists(difficulty);
+            }
             difficulty = difficulty.toLowerCase();
-            boolean difficultyExists = isDifficultyExists(difficulty);
             if (!difficultyExists) {
                 output.print("""
                     Such a difficulty level doesn't exist! It will define randomly!
                     """);
                 SecureRandom secureRandom = new SecureRandom();
-                int difficultyRandomIndex = secureRandom.nextInt(difficultyLevels.length);
+                int difficultyRandomIndex = secureRandom.nextInt(DIFFICULTY_LEVEL_NUMBER);
                 difficulty = difficultyLevels[difficultyRandomIndex];
                 difficulty = difficulty.toLowerCase();
             }
@@ -84,13 +105,13 @@ public class HangmanGame {
 
     private void initUserInput(PrintStream output) {
         switch (difficulty) {
-            case "easy", "1", "1.":
+            case "easy", "1":
                 initEasyDifficulty(output, category);
                 break;
-            case "medium", "2", "2.":
+            case "medium", "2":
                 initMediumDifficulty(output, category);
                 break;
-            case "hard", "3", "3.":
+            case "hard", "3":
                 initHardDifficulty(output, category);
                 break;
             default:
@@ -179,16 +200,20 @@ public class HangmanGame {
     }
 
     private boolean isCategoryExists(String category) {
+        String cuttedCategory = category;
+        if (cuttedCategory.charAt(cuttedCategory.length() - 1) == '.') {
+            cuttedCategory = cuttedCategory.substring(0, cuttedCategory.length() - 1);
+        }
         for (String currentCategory : categories) {
-            if (category.equals(currentCategory)) {
-                if (category.equals("1")) {
-                    this.category = categories[0];
+            if (cuttedCategory.equals(currentCategory)) {
+                if (cuttedCategory.equals(ANIMAL_CATEGORY_INDEX)) {
+                    this.category = categories[Integer.parseInt(currentCategory) - 1];
                 }
-                if (category.equals("2")) {
-                    this.category = categories[1];
+                if (cuttedCategory.equals(LOCATIONS_CATEGORY_INDEX)) {
+                    this.category = categories[Integer.parseInt(currentCategory) - 1];
                 }
-                if (category.equals("3")) {
-                    this.category = categories[2];
+                if (cuttedCategory.equals(DEVICES_CATEGORY_INDEX)) {
+                    this.category = categories[Integer.parseInt(currentCategory) - 1];
                 }
                 return true;
             }
@@ -197,8 +222,21 @@ public class HangmanGame {
     }
 
     private boolean isDifficultyExists(String difficulty) {
+        String cuttedDifficulty = difficulty;
+        if (cuttedDifficulty.charAt(cuttedDifficulty.length() - 1) == '.') {
+            cuttedDifficulty = cuttedDifficulty.substring(0, cuttedDifficulty.length() - 1);
+        }
         for (String difficultyLevel : difficultyLevels) {
-            if (difficulty.equals(difficultyLevel)) {
+            if (cuttedDifficulty.equals(difficultyLevel)) {
+                if (cuttedDifficulty.equals(EASY_DIFFICULTY_INDEX)) {
+                    this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
+                }
+                if (cuttedDifficulty.equals(MEDIUM_DIFFICULTY_INDEX)) {
+                    this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
+                }
+                if (cuttedDifficulty.equals(HARD_DIFFICULTY_INDEX)) {
+                    this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
+                }
                 return true;
             }
         }

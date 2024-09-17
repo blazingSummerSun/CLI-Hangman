@@ -14,6 +14,7 @@ public class WordsCollection {
     private final List<LocationWord> locationWordsCollectionEasy;
     private final List<LocationWord> locationWordsCollectionMedium;
     private final List<LocationWord> locationWordsCollectionHard;
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     public WordsCollection() {
         animalWordsCollectionEasy = new ArrayList<>();
@@ -25,18 +26,18 @@ public class WordsCollection {
         locationWordsCollectionEasy = new ArrayList<>();
         locationWordsCollectionMedium = new ArrayList<>();
         locationWordsCollectionHard = new ArrayList<>();
-        setanimalWordsCollectionEasy();
-        setanimalWordsCollectionMedium();
-        setanimalWordsCollectionHard();
-        setdeviceWordsCollectionEasy();
-        setdeviceWordsCollectionMedium();
-        setdeviceWordsCollectionHard();
-        setlocationWordsCollectionEasy();
-        setlocationWordsCollectionMedium();
-        setlocationWordsCollectionHard();
+        setAnimalWordsCollectionEasy();
+        setAnimalWordsCollectionMedium();
+        setAnimalWordsCollectionHard();
+        setDeviceWordsCollectionHard();
+        setDeviceWordsCollectionEasy();
+        setDeviceWordsCollectionMedium();
+        setLocationWordsCollectionMedium();
+        setLocationWordsCollectionHard();
+        setLocationWordsCollectionEasy();
     }
 
-    private void setanimalWordsCollectionEasy() {
+    private void setAnimalWordsCollectionEasy() {
         AnimalWord cow = new AnimalWord("cow", "Farm animal");
         AnimalWord hyena = new AnimalWord("hyena", "Carnivorous animal");
         AnimalWord giraffe = new AnimalWord("giraffe", "Animal with the longest neck");
@@ -47,7 +48,7 @@ public class WordsCollection {
         animalWordsCollectionEasy.add(whale);
     }
 
-    private void setanimalWordsCollectionMedium() {
+    private void setAnimalWordsCollectionMedium() {
         AnimalWord capybara = new AnimalWord("capybara", "The friendliest animal");
         AnimalWord raccoon = new AnimalWord("raccoon", "Distinctive dark markings on their faces");
         AnimalWord peacock = new AnimalWord("peacock", "Animal with sea green `eyes` on its tail");
@@ -56,85 +57,76 @@ public class WordsCollection {
         animalWordsCollectionMedium.add(peacock);
     }
 
-    private void setanimalWordsCollectionHard() {
+    private void setAnimalWordsCollectionHard() {
         AnimalWord chinchilla = new AnimalWord("chinchilla", "Cute animal");
         animalWordsCollectionHard.add(chinchilla);
     }
 
-    private void setdeviceWordsCollectionEasy() {
+    private void setDeviceWordsCollectionEasy() {
         DeviceWord mouse = new DeviceWord("mouse", "Moves a cursor within the screen");
         DeviceWord screen = new DeviceWord("screen", "Displays some information from a user");
         deviceWordsCollectionEasy.add(mouse);
         deviceWordsCollectionEasy.add(screen);
     }
 
-    private void setdeviceWordsCollectionMedium() {
+    private void setDeviceWordsCollectionMedium() {
         DeviceWord headphones = new DeviceWord("headphones", "Sound device");
         deviceWordsCollectionMedium.add(headphones);
     }
 
-    private void setdeviceWordsCollectionHard() {
+    private void setDeviceWordsCollectionHard() {
         DeviceWord projector = new DeviceWord("projector", "Displays information on the wall");
         deviceWordsCollectionHard.add(projector);
     }
 
-    private void setlocationWordsCollectionEasy() {
+    private void setLocationWordsCollectionEasy() {
         LocationWord everest = new LocationWord("everest", "The highest mountain in the world");
         locationWordsCollectionEasy.add(everest);
     }
 
-    private void setlocationWordsCollectionMedium() {
+    private void setLocationWordsCollectionMedium() {
         LocationWord france = new LocationWord("france", "The love's country");
         locationWordsCollectionMedium.add(france);
     }
 
-    private void setlocationWordsCollectionHard() {
+    private void setLocationWordsCollectionHard() {
         LocationWord madagascar = new LocationWord("madagascar", "The place called by the cartoon");
         locationWordsCollectionHard.add(madagascar);
     }
 
     public AnimalWord getRandomEasyAnimalWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return animalWordsCollectionEasy.get(secureRandom.nextInt(animalWordsCollectionEasy.size()));
+        return animalWordsCollectionEasy.get(RANDOM.nextInt(animalWordsCollectionEasy.size()));
     }
 
     public AnimalWord getRandomMediumAnimalWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return animalWordsCollectionMedium.get(secureRandom.nextInt(animalWordsCollectionMedium.size()));
+        return animalWordsCollectionMedium.get(RANDOM.nextInt(animalWordsCollectionMedium.size()));
     }
 
     public AnimalWord getRandomHardAnimalWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return animalWordsCollectionHard.get(secureRandom.nextInt(animalWordsCollectionHard.size()));
+        return animalWordsCollectionHard.get(RANDOM.nextInt(animalWordsCollectionHard.size()));
     }
 
     public DeviceWord getRandomEasyDeviceWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return deviceWordsCollectionEasy.get(secureRandom.nextInt(deviceWordsCollectionEasy.size()));
+        return deviceWordsCollectionEasy.get(RANDOM.nextInt(deviceWordsCollectionEasy.size()));
     }
 
     public DeviceWord getRandomMediumDeviceWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return deviceWordsCollectionMedium.get(secureRandom.nextInt(deviceWordsCollectionMedium.size()));
+        return deviceWordsCollectionMedium.get(RANDOM.nextInt(deviceWordsCollectionMedium.size()));
     }
 
     public DeviceWord getRandomHardDeviceWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return deviceWordsCollectionHard.get(secureRandom.nextInt(deviceWordsCollectionHard.size()));
+        return deviceWordsCollectionHard.get(RANDOM.nextInt(deviceWordsCollectionHard.size()));
     }
 
     public LocationWord getRandomEasyLocationWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return locationWordsCollectionEasy.get(secureRandom.nextInt(locationWordsCollectionEasy.size()));
+        return locationWordsCollectionEasy.get(RANDOM.nextInt(locationWordsCollectionEasy.size()));
     }
 
     public LocationWord getRandomMediumLocationWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return locationWordsCollectionMedium.get(secureRandom.nextInt(locationWordsCollectionMedium.size()));
+        return locationWordsCollectionMedium.get(RANDOM.nextInt(locationWordsCollectionMedium.size()));
     }
 
     public LocationWord getRandomHardLocationWord() {
-        SecureRandom secureRandom = new SecureRandom();
-        return locationWordsCollectionHard.get(secureRandom.nextInt(locationWordsCollectionHard.size()));
+        return locationWordsCollectionHard.get(RANDOM.nextInt(locationWordsCollectionHard.size()));
     }
 }
