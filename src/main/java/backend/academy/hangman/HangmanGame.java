@@ -15,6 +15,8 @@ public class HangmanGame {
     private static final String DEVICES_CATEGORY = "devices";
     private static final String HINT = "hint";
     private static final String ERROR_INPUT = "Something went wrong! Try to reboot the program.";
+    private static final int CATEGORIES_NUMBER = 3;
+    private static final int DIFFICULTY_LEVEL_NUMBER = 3;
     @Getter private String category;
     private static String word;
     private String hint;
@@ -22,6 +24,8 @@ public class HangmanGame {
     private static HangmanStates states;
     private static HashSet<Character> wordByChars;
     private static HashSet<Character> inputLetters;
+    private final String[] categories = {"Animals", "Locations", "Devices", "1", "1.", "2", "2.", "3", "3."};
+    private final String[] difficultyLevels = {"Easy", "Medium", "Hard", "1", "1.", "2", "2.", "3", "3."};
 
     public HangmanGame(InputStream inputStream, PrintStream output) {
         states = new HangmanStates();
@@ -32,22 +36,20 @@ public class HangmanGame {
     }
 
     private void getUserInput(InputStream inputStream, PrintStream output) {
-        final String[] categories = {"Animals", "Locations", "Devices"};
-        final String[] difficultyLevels = {"Easy", "Medium", "Hard"};
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             output.print("""
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 Welcome to the hangman game! Write the name of the category you want to select:
                 """);
-            for (int i = 0; i < categories.length; i++) {
+            for (int i = 0; i < CATEGORIES_NUMBER; i++) {
                 output.println(i + 1 + ". " + categories[i]);
                 categories[i] = categories[i].toLowerCase();
             }
             category = reader.readLine();
             category = category.toLowerCase();
-            if (!(category.equals(categories[0]) || category.equals(categories[1]) || category.equals(categories[2])
-                || category.equals("1") || category.equals("2") || category.equals("3"))) {
+            boolean categoryExists = isCategoryExists(category);
+            if (!categoryExists) {
                 SecureRandom secureRandom = new SecureRandom();
                 int categoryRandomIndex = secureRandom.nextInt(categories.length);
                 category = categories[categoryRandomIndex];
@@ -59,15 +61,14 @@ public class HangmanGame {
             output.print("""
                 Select the desired difficulty level:
                 """);
-            for (int i = 0; i < difficultyLevels.length; i++) {
+            for (int i = 0; i < DIFFICULTY_LEVEL_NUMBER; i++) {
                 output.println(i + 1 + ". " + difficultyLevels[i]);
                 difficultyLevels[i] = difficultyLevels[i].toLowerCase();
             }
             difficulty = reader.readLine();
             difficulty = difficulty.toLowerCase();
-            if (!(difficulty.equals(difficultyLevels[0]) || difficulty.equals(difficultyLevels[1])
-                || difficulty.equals(difficultyLevels[2]) || difficulty.equals("1") || difficulty.equals("2")
-                || difficulty.equals("3"))) {
+            boolean difficultyExists = isDifficultyExists(difficulty);
+            if (!difficultyExists) {
                 output.print("""
                     Such a difficulty level doesn't exist! It will define randomly!
                     """);
@@ -83,73 +84,14 @@ public class HangmanGame {
 
     private void initUserInput(PrintStream output) {
         switch (difficulty) {
-            case "easy", "1":
-                switch (category) {
-                    case ANIMAL_CATEGORY, "1":
-                        AnimalWord currentWordAnimal = new WordsCollection().getRandomEasyAnimalWord();
-                        word = currentWordAnimal.getWord();
-                        hint = currentWordAnimal.getHint();
-                        break;
-                    case LOCATIONS_CATEGORY, "2":
-                        LocationWord currentWordLocation = new WordsCollection().getRandomEasyLocationWord();
-                        word = currentWordLocation.getWord();
-                        hint = currentWordLocation.getHint();
-                        break;
-                    case DEVICES_CATEGORY, "3":
-                        DeviceWord currentWordDevice = new WordsCollection().getRandomEasyDeviceWord();
-                        word = currentWordDevice.getWord();
-                        hint = currentWordDevice.getHint();
-                        break;
-                    default:
-                        output.print("""
-                            Category doesn't exists! Reboot the program
-                            """);
-                        break;
-                }
+            case "easy", "1", "1.":
+                initEasyDifficulty(output, category);
                 break;
-            case "medium", "2":
-                switch (category) {
-                    case ANIMAL_CATEGORY, "1":
-                        AnimalWord currentWord = new WordsCollection().getRandomMediumAnimalWord();
-                        word = currentWord.getWord();
-                        hint = currentWord.getHint();
-                        break;
-                    case LOCATIONS_CATEGORY, "2":
-                        LocationWord currentWordLocation = new WordsCollection().getRandomMediumLocationWord();
-                        word = currentWordLocation.getWord();
-                        hint = currentWordLocation.getHint();
-                        break;
-                    case DEVICES_CATEGORY, "3":
-                        DeviceWord currentWordDevice = new WordsCollection().getRandomMediumDeviceWord();
-                        word = currentWordDevice.getWord();
-                        hint = currentWordDevice.getHint();
-                        break;
-                    default:
-                        output.print(ERROR_INPUT);
-                        break;
-                }
+            case "medium", "2", "2.":
+                initMediumDifficulty(output, category);
                 break;
-            case "hard", "3":
-                switch (category) {
-                    case ANIMAL_CATEGORY, "1":
-                        AnimalWord currentWord = new WordsCollection().getRandomHardAnimalWord();
-                        word = currentWord.getWord();
-                        hint = currentWord.getHint();
-                        break;
-                    case LOCATIONS_CATEGORY, "2":
-                        LocationWord currentWordLocation = new WordsCollection().getRandomHardLocationWord();
-                        word = currentWordLocation.getWord();
-                        hint = currentWordLocation.getHint();
-                        break;
-                    case DEVICES_CATEGORY, "3":
-                        DeviceWord currentWordDevice = new WordsCollection().getRandomHardDeviceWord();
-                        word = currentWordDevice.getWord();
-                        hint = currentWordDevice.getHint();
-                        break;
-                    default:
-                        output.print(ERROR_INPUT);
-                        break;
-                }
+            case "hard", "3", "3.":
+                initHardDifficulty(output, category);
                 break;
             default:
                 output.print("""
@@ -163,6 +105,104 @@ public class HangmanGame {
         category = category.substring(0, 1).toUpperCase() + category.substring(1);
         difficulty = difficulty.substring(0, 1).toUpperCase() + difficulty.substring(1);
 
+    }
+
+    private void initEasyDifficulty(PrintStream output, String category) {
+        switch (category) {
+            case ANIMAL_CATEGORY, "1":
+                AnimalWord currentWordAnimal = new WordsCollection().getRandomEasyAnimalWord();
+                word = currentWordAnimal.getWord();
+                hint = currentWordAnimal.getHint();
+                break;
+            case LOCATIONS_CATEGORY, "2":
+                LocationWord currentWordLocation = new WordsCollection().getRandomEasyLocationWord();
+                word = currentWordLocation.getWord();
+                hint = currentWordLocation.getHint();
+                break;
+            case DEVICES_CATEGORY, "3":
+                DeviceWord currentWordDevice = new WordsCollection().getRandomEasyDeviceWord();
+                word = currentWordDevice.getWord();
+                hint = currentWordDevice.getHint();
+                break;
+            default:
+                output.print("""
+                    Category doesn't exists! Reboot the program
+                    """);
+                break;
+        }
+    }
+
+    private void initMediumDifficulty(PrintStream output, String category) {
+        switch (category) {
+            case ANIMAL_CATEGORY, "1":
+                AnimalWord currentWord = new WordsCollection().getRandomMediumAnimalWord();
+                word = currentWord.getWord();
+                hint = currentWord.getHint();
+                break;
+            case LOCATIONS_CATEGORY, "2":
+                LocationWord currentWordLocation = new WordsCollection().getRandomMediumLocationWord();
+                word = currentWordLocation.getWord();
+                hint = currentWordLocation.getHint();
+                break;
+            case DEVICES_CATEGORY, "3":
+                DeviceWord currentWordDevice = new WordsCollection().getRandomMediumDeviceWord();
+                word = currentWordDevice.getWord();
+                hint = currentWordDevice.getHint();
+                break;
+            default:
+                output.print(ERROR_INPUT);
+                break;
+        }
+    }
+
+    private void initHardDifficulty(PrintStream output, String category) {
+        switch (category) {
+            case ANIMAL_CATEGORY, "1":
+                AnimalWord currentWord = new WordsCollection().getRandomHardAnimalWord();
+                word = currentWord.getWord();
+                hint = currentWord.getHint();
+                break;
+            case LOCATIONS_CATEGORY, "2":
+                LocationWord currentWordLocation = new WordsCollection().getRandomHardLocationWord();
+                word = currentWordLocation.getWord();
+                hint = currentWordLocation.getHint();
+                break;
+            case DEVICES_CATEGORY, "3":
+                DeviceWord currentWordDevice = new WordsCollection().getRandomHardDeviceWord();
+                word = currentWordDevice.getWord();
+                hint = currentWordDevice.getHint();
+                break;
+            default:
+                output.print(ERROR_INPUT);
+                break;
+        }
+    }
+
+    private boolean isCategoryExists(String category) {
+        for (String currentCategory : categories) {
+            if (category.equals(currentCategory)) {
+                if (category.equals("1")) {
+                    this.category = categories[0];
+                }
+                if (category.equals("2")) {
+                    this.category = categories[1];
+                }
+                if (category.equals("3")) {
+                    this.category = categories[2];
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isDifficultyExists(String difficulty) {
+        for (String difficultyLevel : difficultyLevels) {
+            if (difficulty.equals(difficultyLevel)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void launchGame(InputStream inputStream, PrintStream output) {
