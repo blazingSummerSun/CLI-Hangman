@@ -7,35 +7,36 @@ class WordsCollectionTest {
     @Test
     void AnimalEasyWordCreation() {
         WordsCollection wordsCollection = new WordsCollection();
-        AnimalWord easyAnimalWord = wordsCollection.getRandomEasyAnimalWord();
-        assertNotEquals("capybara", easyAnimalWord.getWord());
-        assertNotEquals("raccoon", easyAnimalWord.getWord());
-        assertNotEquals("peacock", easyAnimalWord.getWord());
-        assertNotEquals("chinchilla", easyAnimalWord.getWord());
+        String easyAnimalWord = wordsCollection.getRandomEasyAnimalWord().getWord();
+        assertNotEquals("capybara", easyAnimalWord);
+        assertNotEquals("raccoon", easyAnimalWord);
+        assertNotEquals("peacock", easyAnimalWord);
+        assertNotEquals("chinchilla", easyAnimalWord);
     }
 
     @Test
     void AnimalMediumWordCreation() {
         WordsCollection wordsCollection = new WordsCollection();
-        AnimalWord mediumAnimalWord = wordsCollection.getRandomMediumAnimalWord();
-        assertNotEquals("cow", mediumAnimalWord.getWord());
-        assertNotEquals("hyena", mediumAnimalWord.getWord());
-        assertNotEquals("giraffe", mediumAnimalWord.getWord());
-        assertNotEquals("whale", mediumAnimalWord.getWord());
-        assertNotEquals("chinchilla", mediumAnimalWord.getWord());
+        String mediumAnimalWord = wordsCollection.getRandomMediumAnimalWord().getWord();
+        assertNotEquals("cow", mediumAnimalWord);
+        assertNotEquals("hyena", mediumAnimalWord);
+        assertNotEquals("giraffe", mediumAnimalWord);
+        assertNotEquals("whale", mediumAnimalWord);
+        assertNotEquals("chinchilla", mediumAnimalWord);
     }
 
     @Test
     void AnimalHardWordCreation() {
         WordsCollection wordsCollection = new WordsCollection();
-        AnimalWord hardAnimalWord = wordsCollection.getRandomHardAnimalWord();
-        assertNotEquals("cow", hardAnimalWord.getWord());
-        assertNotEquals("hyena", hardAnimalWord.getWord());
-        assertNotEquals("giraffe", hardAnimalWord.getWord());
-        assertNotEquals("whale", hardAnimalWord.getWord());
-        assertNotEquals("capybara", hardAnimalWord.getWord());
-        assertNotEquals("raccoon", hardAnimalWord.getWord());
-        assertNotEquals("peacock", hardAnimalWord.getWord());
+        String hardAnimalWord = wordsCollection.getRandomHardAnimalWord().getWord();
+        assertNotEquals("cow", hardAnimalWord);
+        assertNotEquals("hyena", hardAnimalWord);
+        assertNotEquals("giraffe", hardAnimalWord);
+        assertNotEquals("whale", hardAnimalWord);
+        assertNotEquals("capybara", hardAnimalWord);
+        assertNotEquals("raccoon", hardAnimalWord);
+        assertNotEquals("peacock", hardAnimalWord);
     }
+
 
 }
