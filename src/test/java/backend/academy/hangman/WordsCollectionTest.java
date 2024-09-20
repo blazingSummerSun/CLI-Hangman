@@ -38,5 +38,29 @@ class WordsCollectionTest {
         assertNotEquals("peacock", hardAnimalWord);
     }
 
+    @Test
+    void DeviceEasyWordCreation() {
+        WordsCollection wordsCollection = new WordsCollection();
+        String easyDeviceWord = wordsCollection.getRandomEasyDeviceWord().getWord();
+        assertNotEquals("headphones", easyDeviceWord);
+        assertNotEquals("projector", easyDeviceWord);
+    }
 
+    @Test
+    void DeviceMediumWordCreation() {
+        WordsCollection wordsCollection = new WordsCollection();
+        String mediumDeviceWord = wordsCollection.getRandomMediumDeviceWord().getWord();
+        assertNotEquals("projector", mediumDeviceWord);
+        assertNotEquals("mouse", mediumDeviceWord);
+        assertNotEquals("screen", mediumDeviceWord);
+    }
+
+    @Test
+    void DeviceHardWordCreation() {
+        WordsCollection wordsCollection = new WordsCollection();
+        String hardDeviceWord = wordsCollection.getRandomHardDeviceWord().getWord();
+        assertNotEquals("headphones", hardDeviceWord);
+        assertNotEquals("mouse", hardDeviceWord);
+        assertNotEquals("screen", hardDeviceWord);
+    }
 }
