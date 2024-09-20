@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.HashSet;
 import lombok.Getter;
@@ -27,23 +28,22 @@ public class HangmanGame {
     private static String word;
     private String hint;
     @Getter private String difficulty;
-    private static HangmanStates states;
-    private static HashSet<Character> wordByChars;
-    private static HashSet<Character> inputLetters;
+    private final HangmanStates states;
+    private final HashSet<Character> wordByChars;
+    private final HashSet<Character> inputLetters;
     private final String[] categories = {"Animals", "Locations", "Devices", "1", "2", "3"};
     private final String[] difficultyLevels = {"Easy", "Medium", "Hard", "1", "2", "3"};
+    private static final SecureRandom RANDOM = new SecureRandom();
 
-    public HangmanGame(InputStream inputStream, PrintStream output) {
+    public HangmanGame() {
         states = new HangmanStates();
         wordByChars = new HashSet<>();
         inputLetters = new HashSet<>();
-        getUserInput(inputStream, output);
-        initUserInput(output);
     }
 
     private void getUserInput(InputStream inputStream, PrintStream output) {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             output.print("""
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 Welcome to the hangman game! Write the name of the category you want to select:
@@ -54,17 +54,16 @@ public class HangmanGame {
             }
             boolean categoryExists = false;
             category = reader.readLine();
-            if (category.isEmpty()) {
+            if (category != null && category.isEmpty()) {
                 output.print("""
                     Your input is empty! The category will define randomly!
                     """);
-            } else {
+            } else if (category != null) {
                 category = category.toLowerCase();
                 categoryExists = isCategoryExists(category);
             }
             if (!categoryExists) {
-                SecureRandom secureRandom = new SecureRandom();
-                int categoryRandomIndex = secureRandom.nextInt(CATEGORIES_NUMBER);
+                int categoryRandomIndex = RANDOM.nextInt(CATEGORIES_NUMBER);
                 category = categories[categoryRandomIndex];
                 category = category.toLowerCase();
                 output.print("""
@@ -80,21 +79,20 @@ public class HangmanGame {
             }
             difficulty = reader.readLine();
             boolean difficultyExists = false;
-            if (difficulty.isEmpty()) {
+            if (difficulty != null && difficulty.isEmpty()) {
                 output.print("""
                     Your input is empty! The difficulty will define randomly!
                     """);
-            } else {
+            } else if (difficulty != null) {
                 difficulty = difficulty.toLowerCase();
                 difficultyExists = isDifficultyExists(difficulty);
+                difficulty = difficulty.toLowerCase();
             }
-            difficulty = difficulty.toLowerCase();
             if (!difficultyExists) {
                 output.print("""
                     Such a difficulty level doesn't exist! It will define randomly!
                     """);
-                SecureRandom secureRandom = new SecureRandom();
-                int difficultyRandomIndex = secureRandom.nextInt(DIFFICULTY_LEVEL_NUMBER);
+                int difficultyRandomIndex = RANDOM.nextInt(DIFFICULTY_LEVEL_NUMBER);
                 difficulty = difficultyLevels[difficultyRandomIndex];
                 difficulty = difficulty.toLowerCase();
             }
@@ -123,9 +121,6 @@ public class HangmanGame {
         output.print("""
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             """);
-        category = category.substring(0, 1).toUpperCase() + category.substring(1);
-        difficulty = difficulty.substring(0, 1).toUpperCase() + difficulty.substring(1);
-
     }
 
     private void initEasyDifficulty(PrintStream output, String category) {
@@ -200,19 +195,19 @@ public class HangmanGame {
     }
 
     private boolean isCategoryExists(String category) {
-        String cuttedCategory = category;
-        if (cuttedCategory.charAt(cuttedCategory.length() - 1) == '.') {
-            cuttedCategory = cuttedCategory.substring(0, cuttedCategory.length() - 1);
+        String cutCategory = category;
+        if (cutCategory.charAt(cutCategory.length() - 1) == '.') {
+            cutCategory = cutCategory.substring(0, cutCategory.length() - 1);
         }
         for (String currentCategory : categories) {
-            if (cuttedCategory.equals(currentCategory)) {
-                if (cuttedCategory.equals(ANIMAL_CATEGORY_INDEX)) {
+            if (cutCategory.equals(currentCategory)) {
+                if (ANIMAL_CATEGORY_INDEX.equals(cutCategory)) {
                     this.category = categories[Integer.parseInt(currentCategory) - 1];
                 }
-                if (cuttedCategory.equals(LOCATIONS_CATEGORY_INDEX)) {
+                if (LOCATIONS_CATEGORY_INDEX.equals(cutCategory)) {
                     this.category = categories[Integer.parseInt(currentCategory) - 1];
                 }
-                if (cuttedCategory.equals(DEVICES_CATEGORY_INDEX)) {
+                if (DEVICES_CATEGORY_INDEX.equals(cutCategory)) {
                     this.category = categories[Integer.parseInt(currentCategory) - 1];
                 }
                 return true;
@@ -222,19 +217,19 @@ public class HangmanGame {
     }
 
     private boolean isDifficultyExists(String difficulty) {
-        String cuttedDifficulty = difficulty;
-        if (cuttedDifficulty.charAt(cuttedDifficulty.length() - 1) == '.') {
-            cuttedDifficulty = cuttedDifficulty.substring(0, cuttedDifficulty.length() - 1);
+        String cutDifficulty = difficulty;
+        if (cutDifficulty.charAt(cutDifficulty.length() - 1) == '.') {
+            cutDifficulty = cutDifficulty.substring(0, cutDifficulty.length() - 1);
         }
         for (String difficultyLevel : difficultyLevels) {
-            if (cuttedDifficulty.equals(difficultyLevel)) {
-                if (cuttedDifficulty.equals(EASY_DIFFICULTY_INDEX)) {
+            if (cutDifficulty.equals(difficultyLevel)) {
+                if (EASY_DIFFICULTY_INDEX.equals(cutDifficulty)) {
                     this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
                 }
-                if (cuttedDifficulty.equals(MEDIUM_DIFFICULTY_INDEX)) {
+                if (MEDIUM_DIFFICULTY_INDEX.equals(cutDifficulty)) {
                     this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
                 }
-                if (cuttedDifficulty.equals(HARD_DIFFICULTY_INDEX)) {
+                if (HARD_DIFFICULTY_INDEX.equals(cutDifficulty)) {
                     this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
                 }
                 return true;
@@ -244,7 +239,9 @@ public class HangmanGame {
     }
 
     public void launchGame(InputStream inputStream, PrintStream output) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        getUserInput(inputStream, output);
+        initUserInput(output);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         for (int i = 0; i < word.length(); i++) {
             wordByChars.add(word.charAt(i));
         }
@@ -260,26 +257,15 @@ public class HangmanGame {
         while (states.currentState() <= states.attempts()) {
             try {
                 String currentInput = reader.readLine();
-                currentInput = currentInput.toLowerCase();
-                if (currentInput.isEmpty()) {
+                if (currentInput != null) {
+                    currentInput = currentInput.toLowerCase();
+                } else {
                     output.print("""
                         Your input is empty!
                         """);
                     continue;
-                } else if (!(currentInput.equals(HINT) || currentInput.length() == 1)) {
-                    output.print("""
-                        Your input is incorrect! You need to write either "hint" or any character!
-                        """);
-                    continue;
-                } else if (currentInput.equals(HINT)) {
-                    output.println("""
-                        You used the hint! The hint is:
-                        """ + hint);
-                    continue;
-                } else if (!Character.isAlphabetic(currentInput.charAt(0))) {
-                    output.print("""
-                        Wrong input! You need to write either "hint" or any character!
-                        """);
+                }
+                if (checkInvalidInput(output, currentInput)) {
                     continue;
                 } else {
                     if (inputLetters.contains(currentInput.charAt(0))) {
@@ -326,7 +312,27 @@ public class HangmanGame {
         }
     }
 
-    private static void drawState(PrintStream output) {
+    private boolean checkInvalidInput(PrintStream output, String currentInput) {
+        if (!(HINT.equals(currentInput) || currentInput.length() == 1)) {
+            output.print("""
+                Your input is incorrect! You need to write either "hint" or any character!
+                """);
+            return true;
+        } else if (HINT.equals(currentInput)) {
+            output.println("""
+                You used the hint! The hint is:
+                """ + hint);
+            return true;
+        } else if (!Character.isAlphabetic(currentInput.charAt(0))) {
+            output.print("""
+                Wrong input! You need to write either "hint" or any character!
+                """);
+            return true;
+        }
+        return false;
+    }
+
+    private void drawState(PrintStream output) {
         states.displayCurrentState(output);
         for (int i = 0; i < word.length(); i++) {
             if (inputLetters.contains(word.charAt(i))) {
