@@ -85,12 +85,12 @@ public class WordsCollection {
     }
 
     private void setLocationWordsCollectionMedium() {
-        LocationWord france = new LocationWord("france", "The love's country");
+        LocationWord france = new LocationWord("france", "The capital of love");
         locationWordsCollectionMedium.add(france);
     }
 
     private void setLocationWordsCollectionHard() {
-        LocationWord madagascar = new LocationWord("madagascar", "The place called by the cartoon");
+        LocationWord madagascar = new LocationWord("madagascar", "The place named after a cartoon");
         locationWordsCollectionHard.add(madagascar);
     }
 
