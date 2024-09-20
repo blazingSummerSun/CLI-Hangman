@@ -63,4 +63,25 @@ class WordsCollectionTest {
         assertNotEquals("mouse", hardDeviceWord);
         assertNotEquals("screen", hardDeviceWord);
     }
+    @Test
+    void LocationEasyWordCreation() {
+        WordsCollection wordsCollection = new WordsCollection();
+        String easyLocationWord = wordsCollection.getRandomEasyLocationWord().getWord();
+        assertNotEquals("france", easyLocationWord);
+        assertNotEquals("madagascar", easyLocationWord);
+    }
+    @Test
+    void LocationMediumWordCreation() {
+        WordsCollection wordsCollection = new WordsCollection();
+        String mediumLocationWord = wordsCollection.getRandomMediumLocationWord().getWord();
+        assertNotEquals("madagascar", mediumLocationWord);
+        assertNotEquals("everest", mediumLocationWord);
+    }
+    @Test
+    void LocationHardWordCreation() {
+        WordsCollection wordsCollection = new WordsCollection();
+        String hardLocationWord = wordsCollection.getRandomHardLocationWord().getWord();
+        assertNotEquals("france", hardLocationWord);
+        assertNotEquals("everest", hardLocationWord);
+    }
 }
