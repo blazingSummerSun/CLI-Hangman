@@ -58,7 +58,7 @@ public class WordsCollection {
     }
 
     private void setAnimalWordsCollectionHard() {
-        AnimalWord chinchilla = new AnimalWord("chinchilla", "Cute animal");
+        AnimalWord chinchilla = new AnimalWord("chinchilla", "Cute and fluffy animal");
         animalWordsCollectionHard.add(chinchilla);
     }
 
