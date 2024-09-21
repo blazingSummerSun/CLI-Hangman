@@ -1,6 +1,5 @@
 package backend.academy.hangman;
 
-import java.io.PrintStream;
 import lombok.Getter;
 
 @Getter public class HangmanStates {
@@ -18,109 +17,100 @@ import lombok.Getter;
         this.currentState = 0;
     }
 
-    public void displayCurrentState(PrintStream output) {
-        switch (currentState) {
-            case STATE_ZERO:
-                output.print("""
-                    |||======================
-                    |||                    |
-                    |||                    |
-                    |||
-                    \\|/
-                     |
-                     |
-                     |
-                    """);
-                break;
-            case STATE_ONE:
-                output.print("""
-                    |||======================
-                    |||                    |
-                    |||                    |
-                    |||                    |
-                    \\|/                    O
-                     |
-                     |
-                     |
-                    """);
-                break;
-            case STATE_TWO:
-                output.print("""
-                    |||======================
-                    |||                    |
-                    |||                    |
-                    |||                    |
-                    \\|/                    O
-                     |                    /|\\
-                     |
-                     |
-                    """);
-                break;
-            case STATE_THREE:
-                output.print("""
-                    |||======================
-                    |||                    |
-                    |||                    |
-                    |||                    |
-                    \\|/                    O
-                     |                    /|\\
-                     |                     |
-                     |
-                    """);
-                break;
-            case STATE_FOUR:
-                output.print("""
-                    |||======================
-                    |||                    |
-                    |||                    |
-                    |||                    |
-                    \\|/                    O
-                     |                    /|\\
-                     |                     |
-                     |                    /
-                    """);
-                break;
-            case STATE_FIVE:
-                output.print("""
-                    |||======================
-                    |||                    |
-                    |||                    |
-                    |||                    |
-                    \\|/                    O
-                     |                    /|\\
-                     |                     |
-                     |                    / \\
-                    """);
-                break;
-            case STATE_SIX:
-                output.print("""
-                    |||======================
-                    |||                    |
-                    |||                    |
-                    |||                    |
-                    \\|/                    X
-                     |                    /|\\
-                     |                     |
-                     |                    / \\
-                    """);
-                break;
-            default:
-                output.print("""
-                    Something went wrong! Try to reboot the program!
-                    |||======================
-                    |||                    |
-                    |||                    |
-                    |||                    |
-                    \\|/                    X
-                     |                    /|\\
-                     |                     |
-                     |                    / \\
-                    """);
-        }
+    public String displayCurrentState() {
+        return switch (currentState) {
+            case STATE_ZERO -> ("""
+                |||======================
+                |||                    |
+                |||                    |
+                |||
+                \\|/
+                 |
+                 |
+                 |
+                """);
+            case STATE_ONE -> ("""
+                |||======================
+                |||                    |
+                |||                    |
+                |||                    |
+                \\|/                    O
+                 |
+                 |
+                 |
+                """);
+            case STATE_TWO -> ("""
+                |||======================
+                |||                    |
+                |||                    |
+                |||                    |
+                \\|/                    O
+                 |                    /|\\
+                 |
+                 |
+                """);
+            case STATE_THREE -> ("""
+                |||======================
+                |||                    |
+                |||                    |
+                |||                    |
+                \\|/                    O
+                 |                    /|\\
+                 |                     |
+                 |
+                """);
+            case STATE_FOUR -> ("""
+                |||======================
+                |||                    |
+                |||                    |
+                |||                    |
+                \\|/                    O
+                 |                    /|\\
+                 |                     |
+                 |                    /
+                """);
+            case STATE_FIVE -> ("""
+                |||======================
+                |||                    |
+                |||                    |
+                |||                    |
+                \\|/                    O
+                 |                    /|\\
+                 |                     |
+                 |                    / \\
+                """);
+            case STATE_SIX -> ("""
+                |||======================
+                |||                    |
+                |||                    |
+                |||                    |
+                \\|/                    X
+                 |                    /|\\
+                 |                     |
+                 |                    / \\
+                """);
+            default -> ("""
+                Something went wrong! Try to reboot the program!
+                |||======================
+                |||                    |
+                |||                    |
+                |||                    |
+                \\|/                    X
+                 |                    /|\\
+                 |                     |
+                 |                    / \\
+                """);
+        };
     }
 
     public void incrementCurrentState() {
         currentState++;
+    }
+
+    public String attemptsLeft() {
+        return (attempts() - currentState() + 1 + " " + """
+            attempts left!
+            """);
     }
 
 }

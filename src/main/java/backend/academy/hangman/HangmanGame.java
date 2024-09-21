@@ -253,6 +253,7 @@ public class HangmanGame {
         output.print("""
             Start typing character by character or write "hint" to get the hint!
             """);
+        output.print(states.attemptsLeft());
         drawState(output);
         while (states.currentState() <= states.attempts()) {
             try {
@@ -263,6 +264,7 @@ public class HangmanGame {
                     output.print("""
                         Your input is empty!
                         """);
+                    output.print(states.attemptsLeft());
                     continue;
                 }
                 if (checkInvalidInput(output, currentInput)) {
@@ -272,11 +274,13 @@ public class HangmanGame {
                         output.print("""
                             You've already entered this letter! Try another one!
                             """);
+                        output.print(states.attemptsLeft());
                     } else if (wordByChars.contains(currentInput.charAt(0))) {
                         output.print("""
                             Exactly! You guess the letter! Keep going!
                             """);
                         inputLetters.add(currentInput.charAt(0));
+                        output.print(states.attemptsLeft());
                     } else if (!wordByChars.contains(currentInput.charAt(0))
                         && states.currentState() < states.attempts()) {
                         output.print("""
@@ -284,6 +288,7 @@ public class HangmanGame {
                             """);
                         inputLetters.add(currentInput.charAt(0));
                         states.incrementCurrentState();
+                        output.print(states.attemptsLeft());
                     } else {
                         output.print("""
                             You wasted all your attempts! You have lost!
@@ -327,13 +332,14 @@ public class HangmanGame {
             output.print("""
                 Wrong input! You need to write either "hint" or any character!
                 """);
+            output.print(states.attemptsLeft());
             return true;
         }
         return false;
     }
 
     private void drawState(PrintStream output) {
-        states.displayCurrentState(output);
+        output.print(states.displayCurrentState());
         for (int i = 0; i < word.length(); i++) {
             if (inputLetters.contains(word.charAt(i))) {
                 output.print(word.charAt(i) + " ");
