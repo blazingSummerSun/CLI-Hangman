@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WordsCollectionTest {
     @Test
-    void animalEasyWordIsReallyEasyWord() {
+    void shouldReturnEasyAnimalWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String easyAnimalWord = wordsCollection.getRandomEasyAnimalWord().getWord();
         assertNotEquals("capybara", easyAnimalWord);
@@ -15,7 +15,7 @@ class WordsCollectionTest {
     }
 
     @Test
-    void animalMediumWordIsReallyMediumWord() {
+    void shouldReturnMediumAnimalWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String mediumAnimalWord = wordsCollection.getRandomMediumAnimalWord().getWord();
         assertNotEquals("cow", mediumAnimalWord);
@@ -26,7 +26,7 @@ class WordsCollectionTest {
     }
 
     @Test
-    void animalHardWordIsReallyHardWord() {
+    void shouldReturnHardAnimalWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String hardAnimalWord = wordsCollection.getRandomHardAnimalWord().getWord();
         assertNotEquals("cow", hardAnimalWord);
@@ -39,7 +39,7 @@ class WordsCollectionTest {
     }
 
     @Test
-    void deviceEasyWordIsReallyEasyWord() {
+    void shouldReturnEasyDeviceWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String easyDeviceWord = wordsCollection.getRandomEasyDeviceWord().getWord();
         assertNotEquals("headphones", easyDeviceWord);
@@ -47,7 +47,7 @@ class WordsCollectionTest {
     }
 
     @Test
-    void deviceMediumWordIsReallyMediumWord() {
+    void shouldReturnMediumDeviceWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String mediumDeviceWord = wordsCollection.getRandomMediumDeviceWord().getWord();
         assertNotEquals("projector", mediumDeviceWord);
@@ -56,29 +56,32 @@ class WordsCollectionTest {
     }
 
     @Test
-    void deviceHardWordIsReallyHardWord() {
+    void shouldReturnHardDeviceWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String hardDeviceWord = wordsCollection.getRandomHardDeviceWord().getWord();
         assertNotEquals("headphones", hardDeviceWord);
         assertNotEquals("mouse", hardDeviceWord);
         assertNotEquals("screen", hardDeviceWord);
     }
+
     @Test
-    void locationEasyWordIsReallyEasyWord() {
+    void shouldReturnEasyLocationWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String easyLocationWord = wordsCollection.getRandomEasyLocationWord().getWord();
         assertNotEquals("france", easyLocationWord);
         assertNotEquals("madagascar", easyLocationWord);
     }
+
     @Test
-    void locationMediumWordIsReallyMediumWord() {
+    void shouldReturnMediumLocationWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String mediumLocationWord = wordsCollection.getRandomMediumLocationWord().getWord();
         assertNotEquals("madagascar", mediumLocationWord);
         assertNotEquals("everest", mediumLocationWord);
     }
+
     @Test
-    void locationHardWordIsReallyHardWord() {
+    void shouldReturnHardLocationWord() {
         WordsCollection wordsCollection = new WordsCollection();
         String hardLocationWord = wordsCollection.getRandomHardLocationWord().getWord();
         assertNotEquals("france", hardLocationWord);
