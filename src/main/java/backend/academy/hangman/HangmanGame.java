@@ -15,7 +15,6 @@ public class HangmanGame {
     private static final String LOCATIONS_CATEGORY = "locations";
     private static final String DEVICES_CATEGORY = "devices";
     private static final String HINT = "hint";
-    private static final String ERROR_INPUT = "Something went wrong! Try to reboot the program.";
     private static final int CATEGORIES_NUMBER = 3;
     private static final int DIFFICULTY_LEVEL_NUMBER = 3;
     private static final String ANIMAL_CATEGORY_INDEX = "1";
@@ -166,7 +165,7 @@ public class HangmanGame {
                 hint = currentWordDevice.getHint();
                 break;
             default:
-                output.print(ERROR_INPUT);
+                output.print(states.invalidState());
                 break;
         }
     }
@@ -189,7 +188,7 @@ public class HangmanGame {
                 hint = currentWordDevice.getHint();
                 break;
             default:
-                output.print(ERROR_INPUT);
+                output.print(states.invalidState());
                 break;
         }
     }

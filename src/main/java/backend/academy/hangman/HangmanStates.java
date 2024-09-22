@@ -107,6 +107,10 @@ import lombok.Getter;
         currentState++;
     }
 
+    public String invalidState() {
+        return ("Something went wrong! Try to reboot the program.");
+    }
+
     public String attemptsLeft() {
         return (attempts() - currentState() + 1 + " " + """
             attempts left!
