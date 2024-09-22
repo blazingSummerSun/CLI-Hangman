@@ -240,9 +240,17 @@ public final class HangmanGame {
         return false;
     }
 
+    private boolean isWordEmpty(String word) {
+        return word.isEmpty();
+    }
+
     public void launchGame(InputStream inputStream, PrintStream output) {
         getUserInput(inputStream, output);
         initUserInput(output);
+        if (isWordEmpty(word)) {
+            output.print("Your word has zero length! Reboot the program");
+            return;
+        }
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         for (int i = 0; i < word.length(); i++) {
             wordByChars.add(word.charAt(i));
@@ -266,7 +274,6 @@ public final class HangmanGame {
                     output.print("""
                         Your input is empty!
                         """);
-                    output.print(states.attemptsLeft());
                     continue;
                 }
                 if (checkInvalidInput(output, currentInput)) {
