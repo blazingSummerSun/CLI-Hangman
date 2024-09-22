@@ -41,7 +41,7 @@ public class WordsCollection {
         AnimalWord cow = new AnimalWord("cow", "Farm animal");
         AnimalWord hyena = new AnimalWord("hyena", "Carnivorous animal");
         AnimalWord giraffe = new AnimalWord("giraffe", "Animal with the longest neck");
-        AnimalWord whale = new AnimalWord("whale", "The animal lives in the ocean");
+        AnimalWord whale = new AnimalWord("whale", "Lives in the ocean");
         animalWordsCollectionEasy.add(cow);
         animalWordsCollectionEasy.add(hyena);
         animalWordsCollectionEasy.add(giraffe);
@@ -50,7 +50,7 @@ public class WordsCollection {
 
     private void setAnimalWordsCollectionMedium() {
         AnimalWord capybara = new AnimalWord("capybara", "The friendliest animal");
-        AnimalWord raccoon = new AnimalWord("raccoon", "Distinctive dark markings on their faces");
+        AnimalWord raccoon = new AnimalWord("raccoon", "Has distinctive dark markings on their faces");
         AnimalWord peacock = new AnimalWord("peacock", "Animal with sea green `eyes` on its tail");
         animalWordsCollectionMedium.add(capybara);
         animalWordsCollectionMedium.add(raccoon);
@@ -63,7 +63,7 @@ public class WordsCollection {
     }
 
     private void setDeviceWordsCollectionEasy() {
-        DeviceWord mouse = new DeviceWord("mouse", "Moves a cursor within the screen");
+        DeviceWord mouse = new DeviceWord("mouse", "Moves a cursor on the screen");
         DeviceWord screen = new DeviceWord("screen", "Displays some information from a user");
         deviceWordsCollectionEasy.add(mouse);
         deviceWordsCollectionEasy.add(screen);
