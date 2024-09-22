@@ -10,7 +10,7 @@ import java.security.SecureRandom;
 import java.util.HashSet;
 import lombok.Getter;
 
-public class HangmanGame {
+public final class HangmanGame {
     private static final String ANIMAL_CATEGORY = "animals";
     private static final String LOCATIONS_CATEGORY = "locations";
     private static final String DEVICES_CATEGORY = "devices";
@@ -227,9 +227,12 @@ public class HangmanGame {
                 }
                 if (MEDIUM_DIFFICULTY_INDEX.equals(cutDifficulty)) {
                     this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
+                    states.incrementCurrentState();
                 }
                 if (HARD_DIFFICULTY_INDEX.equals(cutDifficulty)) {
                     this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
+                    states.incrementCurrentState();
+                    states.incrementCurrentState();
                 }
                 return true;
             }
