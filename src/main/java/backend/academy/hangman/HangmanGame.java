@@ -321,17 +321,20 @@ public class HangmanGame {
             output.print("""
                 Your input is incorrect! You need to write either "hint" or any character!
                 """);
+            drawState(output);
             return true;
         } else if (HINT.equals(currentInput)) {
             output.println("""
                 You used the hint! The hint is:
                 """ + hint);
+            drawState(output);
             return true;
         } else if (!Character.isAlphabetic(currentInput.charAt(0))) {
             output.print("""
                 Wrong input! You need to write either "hint" or any character!
                 """);
             output.print(states.attemptsLeft());
+            drawState(output);
             return true;
         }
         return false;
