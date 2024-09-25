@@ -11,9 +11,6 @@ import java.util.HashSet;
 import lombok.Getter;
 
 public final class HangmanGame {
-    private static final String ANIMAL_CATEGORY = "animals";
-    private static final String LOCATIONS_CATEGORY = "locations";
-    private static final String DEVICES_CATEGORY = "devices";
     private static final String HINT = "hint";
     private static final int CATEGORIES_NUMBER = 3;
     private static final int DIFFICULTY_LEVEL_NUMBER = 3;
@@ -100,97 +97,10 @@ public final class HangmanGame {
         }
     }
 
-    private void initUserInput(PrintStream output) {
-        switch (difficulty) {
-            case "easy", "1":
-                initEasyDifficulty(output, category);
-                break;
-            case "medium", "2":
-                initMediumDifficulty(output, category);
-                break;
-            case "hard", "3":
-                initHardDifficulty(output, category);
-                break;
-            default:
-                output.print("""
-                    Something went wrong! Reboot the program.
-                    """);
-                break;
-        }
-        output.print("""
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            """);
-    }
-
-    private void initEasyDifficulty(PrintStream output, String category) {
-        switch (category) {
-            case ANIMAL_CATEGORY, "1":
-                Word currentWordAnimal = new WordsCollection().getRandomEasyAnimalWord();
-                word = currentWordAnimal.word();
-                hint = currentWordAnimal.hint();
-                break;
-            case LOCATIONS_CATEGORY, "2":
-                Word currentWordLocation = new WordsCollection().getRandomEasyLocationWord();
-                word = currentWordLocation.word();
-                hint = currentWordLocation.hint();
-                break;
-            case DEVICES_CATEGORY, "3":
-                Word currentWordDevice = new WordsCollection().getRandomEasyDeviceWord();
-                word = currentWordDevice.word();
-                hint = currentWordDevice.hint();
-                break;
-            default:
-                output.print("""
-                    Category doesn't exists! Reboot the program
-                    """);
-                break;
-        }
-    }
-
-    private void initMediumDifficulty(PrintStream output, String category) {
-        switch (category) {
-            case ANIMAL_CATEGORY, "1":
-                Word currentWord = new WordsCollection().getRandomMediumAnimalWord();
-                word = currentWord.word();
-                hint = currentWord.hint();
-                break;
-            case LOCATIONS_CATEGORY, "2":
-                Word currentWordLocation = new WordsCollection().getRandomMediumLocationWord();
-                word = currentWordLocation.word();
-                hint = currentWordLocation.hint();
-                break;
-            case DEVICES_CATEGORY, "3":
-                Word currentWordDevice = new WordsCollection().getRandomMediumDeviceWord();
-                word = currentWordDevice.word();
-                hint = currentWordDevice.hint();
-                break;
-            default:
-                output.print(states.invalidState());
-                break;
-        }
-    }
-
-    private void initHardDifficulty(PrintStream output, String category) {
-        switch (category) {
-            case ANIMAL_CATEGORY, "1":
-                Word currentWord = new WordsCollection().getRandomHardAnimalWord();
-                word = currentWord.word();
-                hint = currentWord.hint();
-                break;
-            case LOCATIONS_CATEGORY, "2":
-                Word currentWordLocation = new WordsCollection().getRandomHardLocationWord();
-                word = currentWordLocation.word();
-                hint = currentWordLocation.hint();
-                break;
-            case DEVICES_CATEGORY, "3":
-                Word currentWordDevice = new WordsCollection().getRandomHardDeviceWord();
-                word = currentWordDevice.word();
-                hint = currentWordDevice.hint();
-                break;
-            default:
-                output.print(states.invalidState());
-                break;
-        }
+    private void initWord() {
+        Word randomWord = new WordsCollection().getRandomWord(difficulty, category);
+        word = randomWord.word();
+        hint = randomWord.hint();
     }
 
     private boolean isCategoryExists(String category) {
@@ -234,6 +144,13 @@ public final class HangmanGame {
                     states.incrementCurrentState();
                     states.incrementCurrentState();
                 }
+                if (difficultyLevels[Integer.parseInt(MEDIUM_DIFFICULTY_INDEX) - 1].equals(difficultyLevel)) {
+                    states.incrementCurrentState();
+                }
+                if (difficultyLevels[Integer.parseInt(HARD_DIFFICULTY_INDEX) - 1].equals(difficultyLevel)) {
+                    states.incrementCurrentState();
+                    states.incrementCurrentState();
+                }
                 return true;
             }
         }
@@ -246,7 +163,10 @@ public final class HangmanGame {
 
     public void launchGame(InputStream inputStream, PrintStream output) {
         getUserInput(inputStream, output);
-        initUserInput(output);
+        initWord();
+        output.print("""
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            """);
         if (isWordEmpty(word)) {
             output.print("Your word has zero length! Reboot the program");
             return;

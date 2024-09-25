@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WordsCollection {
+    private static final String EASY_LEVEL = "easy";
+    private static final String MEDIUM_LEVEL = "medium";
     private final List<Word> animalWordsCollectionEasy;
     private final List<Word> animalWordsCollectionMedium;
     private final List<Word> animalWordsCollectionHard;
@@ -94,39 +96,26 @@ public class WordsCollection {
         locationWordsCollectionHard.add(madagascar);
     }
 
-    public Word getRandomEasyAnimalWord() {
-        return animalWordsCollectionEasy.get(RANDOM.nextInt(animalWordsCollectionEasy.size()));
-    }
-
-    public Word getRandomMediumAnimalWord() {
-        return animalWordsCollectionMedium.get(RANDOM.nextInt(animalWordsCollectionMedium.size()));
-    }
-
-    public Word getRandomHardAnimalWord() {
-        return animalWordsCollectionHard.get(RANDOM.nextInt(animalWordsCollectionHard.size()));
-    }
-
-    public Word getRandomEasyDeviceWord() {
-        return deviceWordsCollectionEasy.get(RANDOM.nextInt(deviceWordsCollectionEasy.size()));
-    }
-
-    public Word getRandomMediumDeviceWord() {
-        return deviceWordsCollectionMedium.get(RANDOM.nextInt(deviceWordsCollectionMedium.size()));
-    }
-
-    public Word getRandomHardDeviceWord() {
-        return deviceWordsCollectionHard.get(RANDOM.nextInt(deviceWordsCollectionHard.size()));
-    }
-
-    public Word getRandomEasyLocationWord() {
-        return locationWordsCollectionEasy.get(RANDOM.nextInt(locationWordsCollectionEasy.size()));
-    }
-
-    public Word getRandomMediumLocationWord() {
-        return locationWordsCollectionMedium.get(RANDOM.nextInt(locationWordsCollectionMedium.size()));
-    }
-
-    public Word getRandomHardLocationWord() {
-        return locationWordsCollectionHard.get(RANDOM.nextInt(locationWordsCollectionHard.size()));
+    public Word getRandomWord(String difficulty, String category) {
+        return switch (category) {
+            case "animals" -> switch (difficulty) {
+                case EASY_LEVEL -> animalWordsCollectionEasy.get(RANDOM.nextInt(animalWordsCollectionEasy.size()));
+                case MEDIUM_LEVEL ->
+                    animalWordsCollectionMedium.get(RANDOM.nextInt(animalWordsCollectionMedium.size()));
+                default -> animalWordsCollectionHard.get(RANDOM.nextInt(animalWordsCollectionHard.size()));
+            };
+            case "devices" -> switch (difficulty) {
+                case EASY_LEVEL -> deviceWordsCollectionEasy.get(RANDOM.nextInt(deviceWordsCollectionEasy.size()));
+                case MEDIUM_LEVEL ->
+                    deviceWordsCollectionMedium.get(RANDOM.nextInt(deviceWordsCollectionMedium.size()));
+                default -> deviceWordsCollectionHard.get(RANDOM.nextInt(deviceWordsCollectionHard.size()));
+            };
+            default -> switch (difficulty) {
+                case EASY_LEVEL -> locationWordsCollectionEasy.get(RANDOM.nextInt(locationWordsCollectionEasy.size()));
+                case MEDIUM_LEVEL ->
+                    locationWordsCollectionMedium.get(RANDOM.nextInt(locationWordsCollectionMedium.size()));
+                default -> locationWordsCollectionHard.get(RANDOM.nextInt(locationWordsCollectionHard.size()));
+            };
+        };
     }
 }
