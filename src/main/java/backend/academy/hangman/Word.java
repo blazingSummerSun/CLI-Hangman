@@ -1,8 +1,10 @@
 package backend.academy.hangman;
 
-public abstract class Word {
-    protected final String word;
-    protected final String hint;
+import lombok.Getter;
+
+@Getter public class Word {
+    private final String word;
+    private final String hint;
 
     public Word(String word, String hint) {
         this.word = word;

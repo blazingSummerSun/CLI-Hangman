@@ -125,19 +125,19 @@ public final class HangmanGame {
     private void initEasyDifficulty(PrintStream output, String category) {
         switch (category) {
             case ANIMAL_CATEGORY, "1":
-                AnimalWord currentWordAnimal = new WordsCollection().getRandomEasyAnimalWord();
-                word = currentWordAnimal.getWord();
-                hint = currentWordAnimal.getHint();
+                Word currentWordAnimal = new WordsCollection().getRandomEasyAnimalWord();
+                word = currentWordAnimal.word();
+                hint = currentWordAnimal.hint();
                 break;
             case LOCATIONS_CATEGORY, "2":
-                LocationWord currentWordLocation = new WordsCollection().getRandomEasyLocationWord();
-                word = currentWordLocation.getWord();
-                hint = currentWordLocation.getHint();
+                Word currentWordLocation = new WordsCollection().getRandomEasyLocationWord();
+                word = currentWordLocation.word();
+                hint = currentWordLocation.hint();
                 break;
             case DEVICES_CATEGORY, "3":
-                DeviceWord currentWordDevice = new WordsCollection().getRandomEasyDeviceWord();
-                word = currentWordDevice.getWord();
-                hint = currentWordDevice.getHint();
+                Word currentWordDevice = new WordsCollection().getRandomEasyDeviceWord();
+                word = currentWordDevice.word();
+                hint = currentWordDevice.hint();
                 break;
             default:
                 output.print("""
@@ -150,19 +150,19 @@ public final class HangmanGame {
     private void initMediumDifficulty(PrintStream output, String category) {
         switch (category) {
             case ANIMAL_CATEGORY, "1":
-                AnimalWord currentWord = new WordsCollection().getRandomMediumAnimalWord();
-                word = currentWord.getWord();
-                hint = currentWord.getHint();
+                Word currentWord = new WordsCollection().getRandomMediumAnimalWord();
+                word = currentWord.word();
+                hint = currentWord.hint();
                 break;
             case LOCATIONS_CATEGORY, "2":
-                LocationWord currentWordLocation = new WordsCollection().getRandomMediumLocationWord();
-                word = currentWordLocation.getWord();
-                hint = currentWordLocation.getHint();
+                Word currentWordLocation = new WordsCollection().getRandomMediumLocationWord();
+                word = currentWordLocation.word();
+                hint = currentWordLocation.hint();
                 break;
             case DEVICES_CATEGORY, "3":
-                DeviceWord currentWordDevice = new WordsCollection().getRandomMediumDeviceWord();
-                word = currentWordDevice.getWord();
-                hint = currentWordDevice.getHint();
+                Word currentWordDevice = new WordsCollection().getRandomMediumDeviceWord();
+                word = currentWordDevice.word();
+                hint = currentWordDevice.hint();
                 break;
             default:
                 output.print(states.invalidState());
@@ -173,19 +173,19 @@ public final class HangmanGame {
     private void initHardDifficulty(PrintStream output, String category) {
         switch (category) {
             case ANIMAL_CATEGORY, "1":
-                AnimalWord currentWord = new WordsCollection().getRandomHardAnimalWord();
-                word = currentWord.getWord();
-                hint = currentWord.getHint();
+                Word currentWord = new WordsCollection().getRandomHardAnimalWord();
+                word = currentWord.word();
+                hint = currentWord.hint();
                 break;
             case LOCATIONS_CATEGORY, "2":
-                LocationWord currentWordLocation = new WordsCollection().getRandomHardLocationWord();
-                word = currentWordLocation.getWord();
-                hint = currentWordLocation.getHint();
+                Word currentWordLocation = new WordsCollection().getRandomHardLocationWord();
+                word = currentWordLocation.word();
+                hint = currentWordLocation.hint();
                 break;
             case DEVICES_CATEGORY, "3":
-                DeviceWord currentWordDevice = new WordsCollection().getRandomHardDeviceWord();
-                word = currentWordDevice.getWord();
-                hint = currentWordDevice.getHint();
+                Word currentWordDevice = new WordsCollection().getRandomHardDeviceWord();
+                word = currentWordDevice.word();
+                hint = currentWordDevice.hint();
                 break;
             default:
                 output.print(states.invalidState());

@@ -7,7 +7,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnEasyAnimalWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String easyAnimalWord = wordsCollection.getRandomEasyAnimalWord().getWord();
+        String easyAnimalWord = wordsCollection.getRandomEasyAnimalWord().word();
         assertNotEquals("capybara", easyAnimalWord);
         assertNotEquals("raccoon", easyAnimalWord);
         assertNotEquals("peacock", easyAnimalWord);
@@ -17,7 +17,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnMediumAnimalWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String mediumAnimalWord = wordsCollection.getRandomMediumAnimalWord().getWord();
+        String mediumAnimalWord = wordsCollection.getRandomMediumAnimalWord().word();
         assertNotEquals("cow", mediumAnimalWord);
         assertNotEquals("hyena", mediumAnimalWord);
         assertNotEquals("giraffe", mediumAnimalWord);
@@ -28,7 +28,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnHardAnimalWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String hardAnimalWord = wordsCollection.getRandomHardAnimalWord().getWord();
+        String hardAnimalWord = wordsCollection.getRandomHardAnimalWord().word();
         assertNotEquals("cow", hardAnimalWord);
         assertNotEquals("hyena", hardAnimalWord);
         assertNotEquals("giraffe", hardAnimalWord);
@@ -41,7 +41,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnEasyDeviceWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String easyDeviceWord = wordsCollection.getRandomEasyDeviceWord().getWord();
+        String easyDeviceWord = wordsCollection.getRandomEasyDeviceWord().word();
         assertNotEquals("headphones", easyDeviceWord);
         assertNotEquals("projector", easyDeviceWord);
     }
@@ -49,7 +49,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnMediumDeviceWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String mediumDeviceWord = wordsCollection.getRandomMediumDeviceWord().getWord();
+        String mediumDeviceWord = wordsCollection.getRandomMediumDeviceWord().word();
         assertNotEquals("projector", mediumDeviceWord);
         assertNotEquals("mouse", mediumDeviceWord);
         assertNotEquals("screen", mediumDeviceWord);
@@ -58,7 +58,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnHardDeviceWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String hardDeviceWord = wordsCollection.getRandomHardDeviceWord().getWord();
+        String hardDeviceWord = wordsCollection.getRandomHardDeviceWord().word();
         assertNotEquals("headphones", hardDeviceWord);
         assertNotEquals("mouse", hardDeviceWord);
         assertNotEquals("screen", hardDeviceWord);
@@ -67,7 +67,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnEasyLocationWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String easyLocationWord = wordsCollection.getRandomEasyLocationWord().getWord();
+        String easyLocationWord = wordsCollection.getRandomEasyLocationWord().word();
         assertNotEquals("france", easyLocationWord);
         assertNotEquals("madagascar", easyLocationWord);
     }
@@ -75,7 +75,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnMediumLocationWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String mediumLocationWord = wordsCollection.getRandomMediumLocationWord().getWord();
+        String mediumLocationWord = wordsCollection.getRandomMediumLocationWord().word();
         assertNotEquals("madagascar", mediumLocationWord);
         assertNotEquals("everest", mediumLocationWord);
     }
@@ -83,7 +83,7 @@ class WordsCollectionTest {
     @Test
     void shouldReturnHardLocationWord() {
         WordsCollection wordsCollection = new WordsCollection();
-        String hardLocationWord = wordsCollection.getRandomHardLocationWord().getWord();
+        String hardLocationWord = wordsCollection.getRandomHardLocationWord().word();
         assertNotEquals("france", hardLocationWord);
         assertNotEquals("everest", hardLocationWord);
     }
