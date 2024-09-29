@@ -43,51 +43,37 @@ public final class HangmanGame {
         hint = randomWord.hint();
     }
 
-    private boolean isCategoryExists(String category) {
-        String cutCategory = category;
-        if (!category.isEmpty() && cutCategory.charAt(cutCategory.length() - 1) == '.') {
-            cutCategory = cutCategory.substring(0, cutCategory.length() - 1);
-        }
-        for (String currentCategory : categories) {
-            if (cutCategory.equals(currentCategory)) {
-                if (ANIMAL_CATEGORY_INDEX.equals(cutCategory)) {
-                    this.category = categories[Integer.parseInt(currentCategory) - 1];
+    private boolean isInputExists(String input, int type) {
+        if (type == 0) {
+            for (String currentCategory : categories) {
+                if (input.equals(currentCategory)) {
+                    if (ANIMAL_CATEGORY_INDEX.equals(input)) {
+                        this.category = categories[Integer.parseInt(currentCategory) - 1];
+                    }
+                    if (LOCATIONS_CATEGORY_INDEX.equals(input)) {
+                        this.category = categories[Integer.parseInt(currentCategory) - 1];
+                    }
+                    if (DEVICES_CATEGORY_INDEX.equals(input)) {
+                        this.category = categories[Integer.parseInt(currentCategory) - 1];
+                    }
+                    return true;
                 }
-                if (LOCATIONS_CATEGORY_INDEX.equals(cutCategory)) {
-                    this.category = categories[Integer.parseInt(currentCategory) - 1];
-                }
-                if (DEVICES_CATEGORY_INDEX.equals(cutCategory)) {
-                    this.category = categories[Integer.parseInt(currentCategory) - 1];
-                }
-                return true;
             }
-        }
-        return false;
-    }
-
-    private boolean isDifficultyExists(String difficulty) {
-        String cutDifficulty = difficulty;
-        if (cutDifficulty.charAt(cutDifficulty.length() - 1) == '.') {
-            cutDifficulty = cutDifficulty.substring(0, cutDifficulty.length() - 1);
+            return false;
         }
         for (String difficultyLevel : difficultyLevels) {
-            if (cutDifficulty.equals(difficultyLevel)) {
-                if (EASY_DIFFICULTY_INDEX.equals(cutDifficulty)) {
+            if (input.equals(difficultyLevel)) {
+                if (EASY_DIFFICULTY_INDEX.equals(input)) {
                     this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
                 }
-                if (MEDIUM_DIFFICULTY_INDEX.equals(cutDifficulty)) {
+                if (MEDIUM_DIFFICULTY_INDEX.equals(input)
+                    || difficultyLevels[Integer.parseInt(MEDIUM_DIFFICULTY_INDEX) - 1].equals(difficultyLevel)) {
                     this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
                     states.incrementCurrentState();
                 }
-                if (HARD_DIFFICULTY_INDEX.equals(cutDifficulty)) {
+                if (HARD_DIFFICULTY_INDEX.equals(input)
+                    || difficultyLevels[Integer.parseInt(HARD_DIFFICULTY_INDEX) - 1].equals(difficultyLevel)) {
                     this.difficulty = difficultyLevels[Integer.parseInt(difficultyLevel) - 1];
-                    states.incrementCurrentState();
-                    states.incrementCurrentState();
-                }
-                if (difficultyLevels[Integer.parseInt(MEDIUM_DIFFICULTY_INDEX) - 1].equals(difficultyLevel)) {
-                    states.incrementCurrentState();
-                }
-                if (difficultyLevels[Integer.parseInt(HARD_DIFFICULTY_INDEX) - 1].equals(difficultyLevel)) {
                     states.incrementCurrentState();
                     states.incrementCurrentState();
                 }
@@ -110,7 +96,11 @@ public final class HangmanGame {
                 wrongCategory(output);
             } else if (category != null) {
                 category = category.toLowerCase();
-                boolean categoryExists = isCategoryExists(category);
+                String cutCategory = String.copyValueOf(difficulty.toCharArray());
+                if (!category.isEmpty() && category.charAt(category.length() - 1) == '.') {
+                    cutCategory = cutCategory.substring(0, cutCategory.length() - 1);
+                }
+                boolean categoryExists = isInputExists(cutCategory, 0);
                 if (!categoryExists) {
                     getRandomCategory();
                     wrongCategory(output);
@@ -172,11 +162,14 @@ public final class HangmanGame {
             printDifficulties(output);
             difficulty = reader.readLine();
             if (difficulty != null && difficulty.isEmpty()) {
-                difficulty = difficulty.toLowerCase();
                 wrongDifficulty(output);
             } else if (difficulty != null) {
+                String cutDifficulty = String.copyValueOf(difficulty.toCharArray());
+                if (cutDifficulty.charAt(cutDifficulty.length() - 1) == '.') {
+                    cutDifficulty = cutDifficulty.substring(0, cutDifficulty.length() - 1);
+                }
                 difficulty = difficulty.toLowerCase();
-                boolean difficultyExists = isDifficultyExists(difficulty);
+                boolean difficultyExists = isInputExists(cutDifficulty, 1);
                 if (!difficultyExists) {
                     getRandomDifficulty();
                     wrongDifficulty(output);
