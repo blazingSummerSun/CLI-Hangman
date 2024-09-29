@@ -92,7 +92,7 @@ public final class HangmanGame {
                 wrongCategory(output);
             } else if (category != null) {
                 category = category.toLowerCase();
-                String cutCategory = String.copyValueOf(difficulty.toCharArray());
+                String cutCategory = String.copyValueOf(category.toCharArray());
                 if (!category.isEmpty() && category.charAt(category.length() - 1) == '.') {
                     cutCategory = cutCategory.substring(0, cutCategory.length() - 1);
                 }
