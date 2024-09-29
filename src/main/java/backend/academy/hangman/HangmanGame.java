@@ -83,10 +83,6 @@ public final class HangmanGame {
         return false;
     }
 
-    private boolean isWordEmpty(String word) {
-        return word.isEmpty();
-    }
-
     private void getUserCategory(InputStream inputStream, PrintStream output) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
@@ -196,7 +192,7 @@ public final class HangmanGame {
         output.print("""
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             """);
-        if (isWordEmpty(word)) {
+        if (word.isEmpty()) {
             output.print("Your word has zero length! Reboot the program");
             return;
         }
