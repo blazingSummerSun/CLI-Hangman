@@ -254,24 +254,31 @@ public final class HangmanGame {
                         states.incrementCurrentState();
                     }
                 }
-                boolean stop = true;
-                for (Character currentChar : wordByChars) {
-                    if (!inputLetters.contains(currentChar)) {
-                        stop = false;
-                        break;
-                    }
-                }
                 drawState(output);
-                if (stop) {
-                    output.print("""
-                        Congratulations! You guessed the word!
-                        """);
+                if (isWin(output)) {
                     break;
                 }
             } catch (Exception e) {
-                output.println(e.getMessage());
+                drawState(output);
             }
         }
+    }
+
+    private boolean isWin(PrintStream output) {
+        boolean stop = true;
+        for (Character currentChar : wordByChars) {
+            if (!inputLetters.contains(currentChar)) {
+                stop = false;
+                break;
+            }
+        }
+        if (stop) {
+            output.print("""
+                Congratulations! You guessed the word!
+                """);
+            return true;
+        }
+        return false;
     }
 
     public void printCategories(PrintStream output) {
