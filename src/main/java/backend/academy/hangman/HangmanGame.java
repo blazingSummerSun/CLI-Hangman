@@ -37,66 +37,6 @@ public final class HangmanGame {
         inputLetters = new HashSet<>();
     }
 
-    private void getUserInput(InputStream inputStream, PrintStream output) {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-            output.print("""
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                Welcome to the hangman game! Write the name of the category you want to select:
-                """);
-            for (int i = 0; i < CATEGORIES_NUMBER; i++) {
-                output.println(i + 1 + ". " + categories[i]);
-                categories[i] = categories[i].toLowerCase();
-            }
-            boolean categoryExists = false;
-            category = reader.readLine();
-            if (category != null && category.isEmpty()) {
-                output.print("""
-                    Your input is empty! The category will define randomly!
-                    """);
-            } else if (category != null) {
-                category = category.toLowerCase();
-                categoryExists = isCategoryExists(category);
-            }
-            if (!categoryExists) {
-                int categoryRandomIndex = RANDOM.nextInt(CATEGORIES_NUMBER);
-                category = categories[categoryRandomIndex];
-                category = category.toLowerCase();
-                output.print("""
-                    Such a category doesn't exist! It will define randomly!
-                    """);
-            }
-            output.print("""
-                Select the desired difficulty level:
-                """);
-            for (int i = 0; i < DIFFICULTY_LEVEL_NUMBER; i++) {
-                output.println(i + 1 + ". " + difficultyLevels[i]);
-                difficultyLevels[i] = difficultyLevels[i].toLowerCase();
-            }
-            difficulty = reader.readLine();
-            boolean difficultyExists = false;
-            if (difficulty != null && difficulty.isEmpty()) {
-                output.print("""
-                    Your input is empty! The difficulty will define randomly!
-                    """);
-            } else if (difficulty != null) {
-                difficulty = difficulty.toLowerCase();
-                difficultyExists = isDifficultyExists(difficulty);
-                difficulty = difficulty.toLowerCase();
-            }
-            if (!difficultyExists) {
-                output.print("""
-                    Such a difficulty level doesn't exist! It will define randomly!
-                    """);
-                int difficultyRandomIndex = RANDOM.nextInt(DIFFICULTY_LEVEL_NUMBER);
-                difficulty = difficultyLevels[difficultyRandomIndex];
-                difficulty = difficulty.toLowerCase();
-            }
-        } catch (IOException e) {
-            output.print(e.getMessage());
-        }
-    }
-
     private void initWord() {
         Word randomWord = new WordsCollection().getRandomWord(difficulty, category);
         word = randomWord.word();
@@ -105,7 +45,7 @@ public final class HangmanGame {
 
     private boolean isCategoryExists(String category) {
         String cutCategory = category;
-        if (cutCategory.charAt(cutCategory.length() - 1) == '.') {
+        if (!category.isEmpty() && cutCategory.charAt(cutCategory.length() - 1) == '.') {
             cutCategory = cutCategory.substring(0, cutCategory.length() - 1);
         }
         for (String currentCategory : categories) {
@@ -161,8 +101,104 @@ public final class HangmanGame {
         return word.isEmpty();
     }
 
+    private void getUserCategory(InputStream inputStream, PrintStream output) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            category = reader.readLine();
+            if (category != null && category.isEmpty()) {
+                category = category.toLowerCase();
+                wrongCategory(output);
+            } else if (category != null) {
+                category = category.toLowerCase();
+                boolean categoryExists = isCategoryExists(category);
+                if (!categoryExists) {
+                    getRandomCategory();
+                    wrongCategory(output);
+                }
+            } else {
+                wrongCategory(output);
+            }
+        } catch (IOException e) {
+            wrongCategory(output);
+        }
+    }
+
+    private void getRandomCategory() {
+        int categoryRandomIndex = RANDOM.nextInt(CATEGORIES_NUMBER);
+        category = categories[categoryRandomIndex];
+        category = category.toLowerCase();
+    }
+
+    private void wrongCategory(PrintStream output) {
+        if (category != null && category.isEmpty()) {
+            output.print("""
+                Your input is empty! The category will define randomly!
+                """);
+            getRandomCategory();
+        } else if (category != null) {
+            output.print("""
+                Such a category doesn't exist! It will define randomly!
+                """);
+            getRandomCategory();
+        } else {
+            output.print("""
+                Something wrong with category! Try to reboot the program!
+                """);
+        }
+
+    }
+
+    private void wrongDifficulty(PrintStream output) {
+        if (difficulty != null && difficulty.isEmpty()) {
+            output.print("""
+                Your input is empty! The difficulty will define randomly!
+                """);
+            getRandomDifficulty();
+        } else if (difficulty != null) {
+            output.print("""
+                Such a difficulty level doesn't exist! It will define randomly!
+                """);
+            getRandomDifficulty();
+        } else {
+            output.print("""
+                Something wrong with difficulty level! Try to reboot the program!
+                """);
+        }
+    }
+
+    private void getUserDifficulty(InputStream inputStream, PrintStream output) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            printDifficulties(output);
+            difficulty = reader.readLine();
+            if (difficulty != null && difficulty.isEmpty()) {
+                difficulty = difficulty.toLowerCase();
+                wrongDifficulty(output);
+            } else if (difficulty != null) {
+                difficulty = difficulty.toLowerCase();
+                boolean difficultyExists = isDifficultyExists(difficulty);
+                if (!difficultyExists) {
+                    getRandomDifficulty();
+                    wrongDifficulty(output);
+                }
+            } else {
+                wrongDifficulty(output);
+            }
+        } catch (Exception e) {
+            wrongCategory(output);
+        }
+    }
+
+    private void getRandomDifficulty() {
+        int difficultyRandomIndex = RANDOM.nextInt(DIFFICULTY_LEVEL_NUMBER);
+        difficulty = difficultyLevels[difficultyRandomIndex];
+        difficulty = difficulty.toLowerCase();
+    }
+
     public void launchGame(InputStream inputStream, PrintStream output) {
-        getUserInput(inputStream, output);
+        printCategories(output);
+        getUserCategory(inputStream, output);
+        getUserDifficulty(inputStream, output);
         initWord();
         output.print("""
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -243,6 +279,27 @@ public final class HangmanGame {
             } catch (Exception e) {
                 output.println(e.getMessage());
             }
+        }
+    }
+
+    public void printCategories(PrintStream output) {
+        output.print("""
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            Welcome to the hangman game! Write the name of the category you want to select:
+            """);
+        for (int i = 0; i < CATEGORIES_NUMBER; i++) {
+            output.println(i + 1 + ". " + categories[i]);
+            categories[i] = categories[i].toLowerCase();
+        }
+    }
+
+    private void printDifficulties(PrintStream output) {
+        output.print("""
+            Select the desired difficulty level:
+            """);
+        for (int i = 0; i < DIFFICULTY_LEVEL_NUMBER; i++) {
+            output.println(i + 1 + ". " + difficultyLevels[i]);
+            difficultyLevels[i] = difficultyLevels[i].toLowerCase();
         }
     }
 
