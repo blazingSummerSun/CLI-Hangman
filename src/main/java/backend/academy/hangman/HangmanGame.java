@@ -30,6 +30,7 @@ public final class HangmanGame {
     private final String[] categories = {"Animals", "Locations", "Devices", "1", "2", "3"};
     private final String[] difficultyLevels = {"Easy", "Medium", "Hard", "1", "2", "3"};
     private static final SecureRandom RANDOM = new SecureRandom();
+    private final WordsCollection wordsCollection = new WordsCollection();
 
     public HangmanGame() {
         states = new HangmanStates();
@@ -38,7 +39,7 @@ public final class HangmanGame {
     }
 
     private void initWord() {
-        Word randomWord = new WordsCollection().getRandomWord(difficulty, category);
+        Word randomWord = wordsCollection.getRandomWord(difficulty, category);
         word = randomWord.word();
         hint = randomWord.hint();
     }
