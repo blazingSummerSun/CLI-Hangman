@@ -221,7 +221,9 @@ public final class HangmanGame {
                         """);
                     continue;
                 }
-                if (checkInvalidInput(output, currentInput)) {
+                if (HINT.equals(currentInput)) {
+                    hintState(output);
+                } else if (checkInvalidInput(output, currentInput)) {
                     continue;
                 } else {
                     if (inputLetters.contains(currentInput.charAt(0))) {
@@ -293,16 +295,10 @@ public final class HangmanGame {
     }
 
     private boolean checkInvalidInput(PrintStream output, String currentInput) {
-        if (!(HINT.equals(currentInput) || currentInput.length() == 1)) {
+        if (!(currentInput.length() == 1)) {
             output.print("""
                 Your input is incorrect! You need to write either "hint" or any character!
                 """);
-            drawState(output);
-            return true;
-        } else if (HINT.equals(currentInput)) {
-            output.println("""
-                You used the hint! The hint is:
-                """ + hint);
             drawState(output);
             return true;
         } else if (!Character.isAlphabetic(currentInput.charAt(0))) {
@@ -314,6 +310,12 @@ public final class HangmanGame {
             return true;
         }
         return false;
+    }
+
+    private void hintState(PrintStream output) {
+        output.println("""
+            You used the hint! The hint is:
+            """ + hint);
     }
 
     private void drawState(PrintStream output) {
