@@ -38,10 +38,18 @@ public final class HangmanGame {
         inputLetters = new HashSet<>();
     }
 
-    private void initWord() {
+    private boolean initWord(PrintStream output) {
         Word randomWord = wordsCollection.getRandomWord(difficulty, category);
         word = randomWord.word();
         hint = randomWord.hint();
+        if (word.isEmpty()) {
+            output.print("Your word has zero length! Reboot the program");
+            return false;
+        }
+        output.print("""
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            """);
+        return true;
     }
 
     private boolean isInputExists(String input, int type) {
@@ -86,6 +94,7 @@ public final class HangmanGame {
 
     private void getUserCategory(InputStream inputStream, PrintStream output) {
         try {
+            printCategories(output);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             category = reader.readLine();
             if (category != null && category.isEmpty()) {
@@ -186,15 +195,9 @@ public final class HangmanGame {
     }
 
     public void launchGame(InputStream inputStream, PrintStream output) {
-        printCategories(output);
         getUserCategory(inputStream, output);
         getUserDifficulty(inputStream, output);
-        initWord();
-        output.print("""
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            """);
-        if (word.isEmpty()) {
-            output.print("Your word has zero length! Reboot the program");
+        if (!initWord(output)) {
             return;
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
@@ -227,32 +230,7 @@ public final class HangmanGame {
                 } else if (checkInvalidInput(output, currentInput)) {
                     continue;
                 } else {
-                    if (inputLetters.contains(currentInput.charAt(0))) {
-                        output.print("""
-                            You've already entered this letter! Try another one!
-                            """);
-                        output.print(states.attemptsLeft());
-                    } else if (wordByChars.contains(currentInput.charAt(0))) {
-                        output.print("""
-                            Exactly! You guess the letter! Keep going!
-                            """);
-                        inputLetters.add(currentInput.charAt(0));
-                        output.print(states.attemptsLeft());
-                    } else if (!wordByChars.contains(currentInput.charAt(0))
-                        && states.currentState() < states.attempts()) {
-                        output.print("""
-                            Failure! You didn't guess the letter! Try another one!
-                            """);
-                        inputLetters.add(currentInput.charAt(0));
-                        states.incrementCurrentState();
-                        output.print(states.attemptsLeft());
-                    } else {
-                        output.print("""
-                            You wasted all your attempts! You have lost!
-                            """);
-                        inputLetters.add(currentInput.charAt(0));
-                        states.incrementCurrentState();
-                    }
+                    guessTheLetter(output, currentInput);
                 }
                 drawState(output);
                 if (isWin(output)) {
@@ -261,6 +239,35 @@ public final class HangmanGame {
             } catch (Exception e) {
                 drawState(output);
             }
+        }
+    }
+
+    private void guessTheLetter(PrintStream output, String currentInput) {
+        if (inputLetters.contains(currentInput.charAt(0))) {
+            output.print("""
+                You've already entered this letter! Try another one!
+                """);
+            output.print(states.attemptsLeft());
+        } else if (wordByChars.contains(currentInput.charAt(0))) {
+            output.print("""
+                Exactly! You guess the letter! Keep going!
+                """);
+            inputLetters.add(currentInput.charAt(0));
+            output.print(states.attemptsLeft());
+        } else if (!wordByChars.contains(currentInput.charAt(0))
+            && states.currentState() < states.attempts()) {
+            output.print("""
+                Failure! You didn't guess the letter! Try another one!
+                """);
+            inputLetters.add(currentInput.charAt(0));
+            states.incrementCurrentState();
+            output.print(states.attemptsLeft());
+        } else {
+            output.print("""
+                You wasted all your attempts! You have lost!
+                """);
+            inputLetters.add(currentInput.charAt(0));
+            states.incrementCurrentState();
         }
     }
 
